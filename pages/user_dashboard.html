@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../css/user_css/main.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="../js/OrgChart.js"></script>
+    <script src="../js/httpRequests.js"></script>
+    <script src="../js/lodash.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://kit.fontawesome.com/ffa15a4f07.js" crossorigin="anonymous"></script>
+
+    <script src="https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"
+        integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw=="
+        crossorigin=""></script>
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+        integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+        crossorigin="">
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+        crossorigin=""></script>
+    <script src="../js/rotatedMarker.js"></script>
+</head>
+
+<body class="animation">
+    <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+    <input style="display: none" type="text" name="fakeusernameremembered" />
+    <input style="display: none" type="password" name="fakepasswordremembered" />
+    <noscript>
+        JavaScript is not enabled! We
+        can't work without JS. Sorry.
+    </noscript>
+    <div id="app" style="display: block;">
+        <div class="app_page app_domain mainPage">
+            <aside class="left-panel w3-sans-serif">
+                <div class="hero_cnt">
+                    <div class="logo">
+                        <img id="installerLogo" style="width: 150px; height: 83px;">
+                        <span id="installerCompany"
+                            style="vertical-align: middle;display:inline-block;width: 155px; max-height: 115px;overflow: hidden;font-weight: bolder;text-align: center;font-size: 25px;margin-top: 8px;">
+
+                        </span>
+                        <div style="margin-top:10px;">
+                            <div style="border-top: solid;padding-top: 10px;font-size: 17px;" id="userName"
+                                class="username_cnt">
+                                <span>
+                                    <b>
+                                        <div style="display: inline-block;overflow: hidden;height: 45px;"
+                                            id="usernameDisplay"></div>
+                                    </b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size:medium; margin-top:30px;" class="menu_cnt w3-sans-serif">
+                    <div class="main_group_cnt workareas">
+                        <div class="main_elem_cnt">
+                            <div class="name">WORKSPACES</div>
+                            <div class="pointer"><a class="triangle"></a></div>
+                        </div>
+                        <menuitem-control>
+                            <div class="elem_cnt">
+                                <div style="font-weight:bold;" id="menu_item_dashboard" title="Dashboard"
+                                    class="item_cnt dashboard">
+                                    <div class="icon">
+                                        <a><i class="fa-solid fa-table-columns"></i> </a>
+                                    </div>
+                                    <div onclick="selectPage('dashboard')" class="dashboard">
+                                        <span>Dashboard</span>
+                                        <div class="additional_name"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </menuitem-control>
+                        <menuitem-control>
+                            <div class="elem_cnt">
+                                <div style="font-weight:bold;" id="menu_item_tracking" title="Tracking"
+                                    class="item_cnt tracking selected">
+                                    <div class="icon">
+                                        <a><i class="fa-solid fa-car-side"></i></a>
+                                    </div>
+                                    <div onclick="selectPage('tracking')" class="Tracking">
+                                        <span>Tracking</span>
+                                        <div class="additional_name"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </menuitem-control>
+                        <!--
+                        <menuitem-control>
+                            <div class="elem_cnt">
+                                <div id="menu_item_reports" title="Reports" class="item_cnt reports">
+                                    <div class="icon">
+                                        <a><i class="fa-solid fa-chart-pie"></i></a>
+                                    </div>
+                                    <div class="name">
+                                        <span>Reports</span>
+                                        <div class="additional_name"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </menuitem-control>-->
+                    </div>
+                    <div class="main_group_cnt help">
+                        <!--<div class="main_elem_cnt">
+                            <div class="name">SUPPORT</div>
+                            <div class="pointer"><a class="triangle"></a></div>
+                        </div>-->
+                        <menuitem-control>
+                            <div class="elem_cnt">
+                                <!--<div id="menu_item_support" title="Help Center" class="item_cnt support always_active">
+                                    <div class="icon">
+                                        <a><i class="fa-solid fa-circle-info"></i></a>
+                                    </div>
+                                    <div class="name">
+                                        <span>Help Center</span>
+                                        <div class="additional_name"></div>
+                                    </div>
+                                </div>-->
+                                <div id="menu_item_userSettings" title="Account Settings"
+                                    class="item_cnt support always_active">
+                                    <div class="icon">
+                                        <a><i class="fa-solid fa-gear"></i></a>
+                                    </div>
+                                    <div onclick="selectPage('userSettings')" class="name">
+                                        <span>Edit Account</span>
+                                        <div class="additional_name"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </menuitem-control>
+                    </div>
+                </div>
+                <div class="foot_cnt">
+                    <div class="main_group_cnt foot">
+                        <div class="elem_cnt">
+                            <div class="item_cnt hide_panel">
+                                <div class="icon"><a></a></div>
+                                <div class="name"></div>
+                            </div>
+                        </div>
+                        <menuitem-control>
+                            <div onclick="logoutUser()" class="elem_cnt">
+                                <div id="menu_item_logout" title="Log Out" class="item_cnt logout">
+                                    <div class="icon">
+                                        <a><i class="fa-solid fa-power-off"></i></a>
+                                    </div>
+                                    <div class="name">
+                                        <span>Log Out</span>
+                                        <div class="additional_name"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </menuitem-control>
+                    </div>
+                </div>
+            </aside>
+            <div id="trackingContainer" class="main-cnt back_anim_blow">
+                <div id="workareaMainContainer" class="workarea-widget-cnt scroll">
+                    <div class="widget_cnt">
+                        <div class="widget-template single_widget tracking">
+                            <div class="general-cnt">
+                                <div class="main-menu-cnt">
+                                    <div class="menu-cnt">
+                                        <div class="def_cnt align_center">
+                                            <div class="btn_circle_main_cnt find">
+                                                <div>
+                                                    <div>
+                                                        <input id="trackerSearch"
+                                                            style="display: unset;width:335px;font-family:Arial, FontAwesome"
+                                                            class="w3-input" placeholder="&#xF002; Search for tracker"
+                                                            type="text"></p>
+                                                        <h1 id="tripDeviceTitle" style="display: none;"><i style="display:inline-block;
+                                                                vertical-align: middle;"
+                                                                class="fa-solid fa-car-side"></i>
+                                                            <div style="display: inline-block;" id="tripDeviceName">
+                                                                DeviceName</div>
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="def_cnt align_center j_c_fe">
+                                            <span style="margin-right:3px;">Support: </span>
+                                            <span id="upRightTrackerCounter" style="color: green;font-weight: 800;">0
+                                                trackers.</span>
+                                        </div>
+                                    </div>
+                                    <div class="search-cnt">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input class="input_style" type="text" placeholder="Type for search">
+                                    </div>
+                                </div>
+
+                                <div class="content-cnt">
+                                    <div class="container_cnt containerWidget">
+                                        <div class="container_cnt objects_list_container">
+                                            <div class="pager page object-current-state">
+                                                <div id="trackers" class="main_pager_cnt">
+
+                                                </div>
+
+                                                <div id="tripHistory" style="display:none;" class="main_pager_cnt">
+                                                    <div onclick="closeTrips()"
+                                                        style="width:50px;padding:10px;height:50px;display: inline-block;vertical-align: middle;"
+                                                        class="arrow_cnt btn_arrow_cnt blue"><span class="arrow"> <i
+                                                                style="color:white; font-size:30px;margin-top:-4px;cursor: pointer;"
+                                                                class="fa-solid fa-arrow-left-long"></i> </span>
+                                                    </div>
+                                                    <div class="pager routes-elem-page page">
+                                                        <div style="margin-bottom:10px;" id="datepicker">
+                                                            <div onclick="moveDateBackward()"
+                                                                style="width:30px;padding:10px;height:25px;background-color:#378f9f !important;display: inline-block;"
+                                                                class="arrow_cnt btn_arrow_cnt blue">
+                                                                <span class="arrow">
+                                                                    <i style="color:white; font-size:17px;margin-top:-6px;margin-left: -3px;cursor: pointer;"
+                                                                        class="fa-solid fa-arrow-left-long"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input id="datePicker" type="date">
+                                                            <div onclick="moveDateForward()"
+                                                                style="width:30px;padding:10px;height:25px;background-color:#378f9f !important;display: inline-block;"
+                                                                class="arrow_cnt btn_arrow_cnt blue">
+                                                                <span class="arrow">
+                                                                    <i style="color:white; font-size:17px;margin-top:-6px;margin-left: -3px;cursor: pointer;"
+                                                                        class="fa-solid fa-arrow-right-long"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="main_pager_cnt">
+                                                            <div id="tripsHistoryList" style="overflow: hidden;"
+                                                                class="route-main-cnt">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="widget-template map tracking_map">
+                                            <div class="general-cnt" id="plate_map0">
+                                                <div class="header-cnt" style="display: none;">
+                                                    <div class="modul-title-cnt">
+                                                        <div class="first-row">
+                                                            <span class="modul-title"></span>
+                                                            <span class="additional-modul-title"
+                                                                style="display: none;"></span>
+                                                        </div>
+                                                        <div class="second-row">
+                                                            <span class="update-time"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="main-menu-cnt">
+                                                    <div id="searchContainer" style="height:100%; width: 100%;">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="content-cnt">
+                                                    <div class="map-infobox" style="display: none;">
+                                                    </div>
+                                                    <div style="height: 100%; width: 100%; position: relative;" id="map"
+                                                        tabindex="0">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container_cnt containerWidget containerSmallMaps">
+                        </div>
+                    </div>
+                    <div class="workarea_static_line_cnt">
+                        <div class="static_line_elem left">
+                            <div class="z_btn_cnt logo">
+                                <div class="z_btn"></div>
+                            </div>
+                            <div class="z_btn_cnt menu">
+                                <input type="button" class="z_btn">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="dashboardContainer" style="display: none;width:100%;">
+                <div class="w3-main">
+
+                    <!-- Header -->
+                    <header class="w3-container" style="padding-top:22px">
+                        <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+                    </header>
+
+                    <div class="w3-row-padding w3-margin-bottom">
+                        <div class="w3-quarter">
+                            <div class="w3-container w3-blue w3-padding-16">
+                                <div class="w3-left"><i class="fa fa-location w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h1 id="numTrackers">0</h1>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h4>Trackers</h4>
+                            </div>
+                        </div>
+                        <div class="w3-quarter">
+                            <div class="w3-container w3-green w3-padding-16">
+                                <div class="w3-left"><i class="fa fa-wifi w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h1 id="numTrackersOnline">0</h1>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h4>Online</h4>
+                            </div>
+                        </div>
+                        <div class="w3-quarter">
+                            <div class="w3-container w3-orange w3-text-white w3-padding-16">
+                                <div class="w3-left"><i class="fa fa-car-side w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h1 id="numTrackersMotion">0</h1>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h4>In motion</h4>
+                            </div>
+                        </div>
+                        <div class="w3-quarter">
+                            <div class="w3-container w3-red w3-padding-16">
+                                <div class="w3-left"><i class="fa fa-xmark w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h1 id="numTrackersOffline">0</h1>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h4>Offline</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="w3-container">
+                        <h5>General Stats</h5>
+                        <p>Online (received signal today) </p>
+                        <div class="w3-grey">
+                            <div id="percentageOnline" class="w3-container w3-center w3-padding w3-green"
+                                style="width:0%"></div>
+                        </div>
+
+                        <p>In motion</p>
+                        <div class="w3-grey">
+                            <div id="percentageMotion" class="w3-container w3-center w3-padding w3-orange"
+                                style="width:0%"></div>
+                        </div>
+
+                        <p>Offline (did not receive today)</p>
+                        <div class="w3-grey">
+                            <div id="percentageOffline" class="w3-container w3-center w3-padding w3-red"
+                                style="width:0%"></div>
+                        </div>
+
+                        <p>No data (never received data)</p>
+                        <div class="w3-grey">
+                            <div id="percentageNoData" class="w3-container w3-center w3-padding w3-black"
+                                style="width:0%"></div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- End page content -->
+                </div>
+            </div>
+
+            <div id="userSettingsContainer" style="display: none;width:100%;">
+                <div class="w3-main">
+
+                    <!-- Header -->
+                    <header class="w3-container" style="padding-top:22px">
+                        <h5><b><i class="fa fa-user"></i> Account Settings</b></h5>
+                        <div style="width: fit-content;background-color: #5fc6d9;padding: 59px;padding-top: 20px;padding-bottom: 20px;color: white !important;"
+                            class="w3-text-blue">
+                            <b style="color: black;">Update your account settings.</b>
+                            <div class="w3-row w3-section">
+                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa-solid fa-f"></i></div>
+                                <div class="w3-rest">
+                                    <input id="updatedFirstName" class="w3-input w3-border" name="first" type="text"
+                                        placeholder="First Name">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="w3-row w3-section">
+                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa-solid fa-l"></i></div>
+                                <div class="w3-rest">
+                                    <input id="updatedLastName" class="w3-input w3-border" name="last" type="text"
+                                        placeholder="Last Name">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="w3-row w3-section">
+                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope-o"></i></div>
+                                <div class="w3-rest">
+                                    <input id="updatedEmail" class="w3-input w3-border" name="email" type="text"
+                                        placeholder="Email">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="w3-row w3-section">
+                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa-solid fa-key"></i></div>
+                                <div class="w3-rest">
+                                    <input id="updatedPassword" class="w3-input w3-border" name="password"
+                                        type="password" placeholder="Password">
+                                </div>
+                            </div>
+                            <hr />
+                            <button onclick="modifyUser()"
+                                class="w3-button w3-block w3-section w3-white w3-ripple w3-padding">Save edit</button>
+
+                        </div>
+                    </header>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="killswitchModal" class="modal">
+
+            <div style="font-size: large; text-align: center;" class="modal-content">
+                <span style="color: white;padding: 6px;cursor:pointer;" class="closeModal">&times;</span>
+                <h1 style="background-color: indianred;color: white;padding: 10px;">
+                    Control Starter
+                </h1>
+                <b id="deviceStatus"></b>
+                <p style="display: inline-block;">Are you sure you want to send a Starter command to
+                    <b style="display: inline-block;" id="deviceNameModalOff"></b>
+                    <b style="display: inline-block;" id="deviceImeiModalOff"></b>?
+                    <br>
+                    <small>This will allow or prevent the Starter from being started again depending on your
+                        selection.</small>
+                </p>
+                <br>
+                <button onclick="engineButton(false);document.getElementById('killswitchModal').style.display = 'none';"
+                    style="display:inline-block;margin-right:5px;" class="w3-button w3-blue">Turn Starter on</button>
+                <button onclick="engineButton(true);document.getElementById('killswitchModal').style.display = 'none';"
+                    style="display:inline-block;" class="w3-button w3-red">Turn Starter off</button>
+            </div>
+
+        </div>
+
+        <div id="editModal" class="modal">
+
+            <div style="font-size: large; text-align: center;" class="modal-content">
+                <span style="cursor:pointer;color: white;padding: 6px;" class="closeModal">&times;</span>
+                <h1 style="background-color: rgb(68, 142, 211);color: white;padding: 10px;">
+                    Edit Asset
+                </h1>
+                <p style="display: inline-block;">
+                    <b style="display: inline-block;">Device name</b>
+                    <input id="deviceNameModalEdit" placeholder="Device name">
+                    <br>
+                    <br>
+                    <b style="display: inline-block;">Device IMEI</b>
+                    <input style="margin-left: 7px;opacity: 1 !important;border: none;color: black;" disabled=true
+                        id="deviceImeiModalEdit" placeholder="Device IMEI">
+                    <br>
+                    <br>
+                </p>
+                <br>
+                <button onclick="document.getElementById('editModal').style.display = 'none';"
+                    style="display:inline-block;margin-right:5px;" class="w3-button w3-blue">Cancel</button>
+                <button onclick="document.getElementById('editModal').style.display = 'none';changeTrackerName()"
+                    style="display:inline-block;" class="w3-button w3-green">Save</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById("installerCompany").textContent = localStorage.getItem("userCompany");
+        document.getElementById("updatedFirstName").value = localStorage.getItem("userFname");
+        document.getElementById("updatedLastName").value = localStorage.getItem("userLname");
+        document.getElementById("updatedEmail").value = localStorage.getItem("userEmail");
+        document.getElementById("upRightTrackerCounter").textContent = localStorage.getItem("userInstaller");
+
+        function timeDiffCalc(dateFuture, dateNow = new Date()) {
+            let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
+
+            // calculate days
+            const days = Math.floor(diffInMilliSeconds / 86400);
+            diffInMilliSeconds -= days * 86400;
+
+            // calculate hours
+            const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+            diffInMilliSeconds -= hours * 3600;
+
+            // calculate minutes
+            const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+            diffInMilliSeconds -= minutes * 60;
+
+            let difference = '';
+            if (days > 0) {
+                difference += (days === 1) ? `${days} day ` : `${days} days `;
+            }
+
+            if (hours >= 1) {
+                difference += (hours === 1) ? `${hours} hour ` : `${hours} hours `;
+            }
+
+            difference += (minutes === 0 || hours === 1) ? `${minutes} minutes` : `${minutes} minutes`;
+
+            return difference;
+        }
+
+        const getLogoImage = () => {
+            getLogo((isSuccess, data) => {
+                if (isSuccess) {
+                    if (data.img.length > 0) {
+                        document.getElementById("installerLogo").src = data.img;
+                    } else {
+                        document.getElementById("installerLogo").style.display = "none";
+                    }
+                    return;
+                } else {
+                    //ons.notification.toast(data, { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            });
+        }
+
+        let selectedEngineTurnOff = undefined;
+
+        function activateModal(deviceImei, deviceName, companyName, out1, isTurnOff) {
+            selectedEngineTurnOff = {
+                deviceImei,
+                deviceName,
+                companyName,
+                isTurnOff
+            }
+
+            if (isTurnOff) {
+                // Get the modal
+                let modal = document.getElementById("killswitchModal");
+                modal.style.display = "block";
+
+                document.getElementById("deviceNameModalOff").textContent = deviceName;
+                document.getElementById("deviceImeiModalOff").textContent = " (" + deviceImei + ")";
+
+                if (out1 !== "undefined") {
+                    document.getElementById("deviceStatus").textContent = "Starter is currently " + (out1 === "true" ? "disabled." : "enabled.");
+                    document.getElementById("deviceStatus").style.display = "block";
+                    if (out1 === "true") {
+                        document.getElementById("deviceStatus").style.color = "red";
+                    } else {
+                        document.getElementById("deviceStatus").style.color = "green";
+                    }
+                }
+
+                // Get the <span> element that closes the modal
+                let span = document.getElementsByClassName("closeModal")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        }
+
+        let selectedEditTracker = undefined;
+
+        function activateModalEdit(deviceImei, deviceName, companyName, isTurnOff) {
+            selectedEditTracker = {
+                deviceImei,
+                deviceName,
+                companyName
+            }
+
+            if (isTurnOff) {
+                // Get the modal
+                let modal = document.getElementById("editModal");
+                modal.style.display = "block";
+
+                document.getElementById("deviceNameModalEdit").value = deviceName;
+                document.getElementById("deviceImeiModalEdit").value = deviceImei;
+
+
+                // Get the <span> element that closes the modal
+                let span = document.getElementsByClassName("closeModal")[1];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        }
+
+        const changeTrackerName = () => {
+            selectedEditTracker.deviceNameUpdated = document.getElementById("deviceNameModalEdit").value;
+            selectedEditTracker.groupNameUpdated = "Placeholder, will make parameter optional later.";
+            editTracker(selectedEditTracker, (isSuccess, data) => {
+                if (isSuccess) {
+                    populateTrackers();
+                } else {
+                    alert(data);
+                }
+            })
+        }
+
+
+        function engineButton(engineTurnOff) {
+            if (engineTurnOff) {
+                killswitchTracker(selectedEngineTurnOff, (isSuccess, data) => {
+                    if (isSuccess) {
+                        alert("Starter turn off command sent. ")
+                    } else {
+                        alert("Command ERROR! Did you install a killswitch on your vehicule?")
+                    }
+                })
+            } else {
+                disableKillswitchTracker(selectedEngineTurnOff, (isSuccess, data) => {
+                    if (isSuccess) {
+                        alert("Starter turn on command sent. ")
+                    } else {
+                        alert("Command ERROR! Did you install a killswitch on your vehicule?")
+                    }
+                })
+            }
+        }
+
+        getLogoImage();
+
+        function logoutUser() {
+            logout((isSuccess, msg) => {
+                if (isSuccess) {
+                    localStorage.removeItem("installerCompany");
+                    localStorage.removeItem("userEmail");
+                    localStorage.removeItem("userCompany");
+                    localStorage.removeItem("userFname");
+                    localStorage.removeItem("userLname");
+                    localStorage.removeItem("userInstaller");
+                    window.location.href = "../index.html";
+                }
+            })
+        }
+
+        function modifyUser() {
+            let updatedUser = {
+                email: localStorage.getItem("userEmail"),
+                companyName: localStorage.getItem("userCompany"),
+                installerEmail: localStorage.getItem("userInstaller"),
+                updatedEmail: document.getElementById("updatedEmail").value,
+                updatedFirstName: document.getElementById("updatedFirstName").value,
+                updatedLastName: document.getElementById("updatedLastName").value,
+            }
+
+            if (document.getElementById("updatedPassword").value.length > 0) {
+                updatedUser.updatedPassword = document.getElementById("updatedPassword").value;
+            }
+
+            editUser(updatedUser, (isSuccess, msg) => {
+                if (isSuccess) {
+                    localStorage.setItem("userFname", document.getElementById("updatedFirstName").value);
+                    localStorage.getItem("userLname", document.getElementById("updatedLastName").value);
+                    localStorage.getItem("userEmail", document.getElementById("updatedEmail").value);
+                    location.reload();
+                    //console.log(msg)
+                } else {
+                    alert(msg);
+                }
+            })
+        }
+
+        // On key stroke search listener
+        document.getElementById("trackerSearch").addEventListener("keyup", () => {
+            let trackers = document.getElementsByClassName("trackerItem");
+            let searchInput = document.getElementById("trackerSearch").value;
+
+            if (searchInput.length > 0) {
+                for (let i = 0; i < trackers.length; i++) {
+                    if (trackers[i].id.includes(searchInput)) {
+                        trackers[i].style.display = "";
+                    } else {
+                        document.getElementsByClassName("trackerItem")[i].style.display = "none";
+                    }
+                }
+            } else {
+                for (let i = 0; i < trackers.length; i++) {
+                    trackers[i].style.display = "";
+                }
+            }
+        });
+
+        // DASHBOARD PAGE
+        function dashboardStats() {
+            let noOfTrackers = trackersG.length;
+            document.getElementById("numTrackers").textContent = noOfTrackers;
+
+            let noOfOnlineTrackers = 0;
+            let noOfOfflineTrackers = 0;
+            let noOfMovingTrackers = 0;
+            let noOfNoDataTrackers = 0;
+            for (let i = 0; i < trackersG.length; i++) {
+                if (trackersG[i].devicePosition.length > 0 && trackersG[i].devicePosition[trackersG[i].devicePosition.length - 1].deviceTime.split("T")[0] === new Date().toLocaleDateString('en-ca')) {
+                    noOfOnlineTrackers = noOfOnlineTrackers + 1;
+                    if (trackersG[i].devicePosition[trackersG[i].devicePosition.length - 1].motion) {
+                        noOfMovingTrackers = noOfMovingTrackers + 1;
+                    }
+                } else if (trackersG[i].devicePosition.length > 0 && trackersG[i].devicePosition[trackersG[i].devicePosition.length - 1].deviceTime.split("T")[0] !== new Date().toLocaleDateString('en-ca')) {
+                    noOfOfflineTrackers = noOfOfflineTrackers + 1;
+                }
+
+                if (trackersG[i].devicePosition.length === 0) {
+                    noOfNoDataTrackers = noOfNoDataTrackers + 1;
+                }
+            }
+
+            let percentageOfOffline = (noOfOfflineTrackers * 100) / noOfTrackers;
+            let percentageOfOnline = (noOfOnlineTrackers * 100) / noOfTrackers;
+            let percentageOfMoving = (noOfMovingTrackers * 100) / noOfTrackers;
+            let percentageOfNoData = (noOfNoDataTrackers * 100) / noOfTrackers;
+
+            document.getElementById("percentageOnline").textContent = noOfOnlineTrackers;
+            document.getElementById("percentageOffline").textContent = noOfOfflineTrackers;
+            document.getElementById("percentageMotion").textContent = noOfMovingTrackers;
+            document.getElementById("percentageNoData").textContent = noOfNoDataTrackers;
+
+            document.getElementById("percentageOnline").style.width = percentageOfOnline + "%";
+            document.getElementById("percentageOffline").style.width = percentageOfOffline + "%";
+            document.getElementById("percentageMotion").style.width = percentageOfMoving + "%";
+            document.getElementById("percentageNoData").style.width = percentageOfNoData + "%";
+
+            document.getElementById("numTrackers").textContent = noOfTrackers;
+            document.getElementById("numTrackersOnline").textContent = noOfOnlineTrackers;
+            document.getElementById("numTrackersOffline").textContent = noOfTrackers;
+            document.getElementById("numTrackersMotion").textContent = noOfMovingTrackers;
+
+            //document.getElementById("upRightTrackerCounter").textContent = noOfTrackers + " trackers.";
+        }
+
+        // TRACKING PAGE
+        const greenIcon = new L.Icon({
+            iconUrl: '../images/green-dot-test.png',
+            //shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [40, 40],
+            iconAnchor: [12, 20],
+            popupAnchor: [1, -24]
+        });
+
+        const arrowIcon = new L.Icon({
+            iconUrl: '../images/tracker-icon.png',
+            //shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [40, 40],
+            iconAnchor: [12, 20],
+            popupAnchor: [1, -24]
+        });
+
+        const entityMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '/': '&#x2F;',
+            '`': '&#x60;',
+            '=': '&#x3D;',
+            '(': '&#40;',
+            ')': '&#41;'
+        };
+
+        const escapeHtml = (string) => {
+            return String(string).replaceAll(/[&<>"'`=()\/]/g, function (s) {
+                return entityMap[s];
+            });
+        }
+
+        let animationTime = 500;
+
+        function selectPage(pageSelected) {
+            $("#menu_item_userSettings").removeClass("selected");
+            $("#menu_item_tracking").removeClass("selected");
+            $("#menu_item_dashboard").removeClass("selected");
+            $("#trackingContainer").hide(animationTime);
+            $("#dashboardContainer").hide(animationTime);
+            $("#userSettingsContainer").hide(animationTime);
+            $("#" + pageSelected + "Container").show(animationTime);
+            $("#" + ("menu_item_" + pageSelected)).addClass("selected");
+        }
+
+        document.getElementById("usernameDisplay").innerHTML = `<i style="display: inline-block;" class="fa-solid fa-user"></i> ` + escapeHtml(localStorage.getItem("userFname")) + " " + escapeHtml(localStorage.getItem("userLname"));
+
+
+        let map = L.map('map').setView([74.8533156189487, -126.85526847839357], 13);
+
+        /*L.routing.control({
+            router: L.Routing.mapbox('pk.eyJ1IjoiZGVubmlzaGlnaHBvaW50IiwiYSI6ImNremU3NWp3NzAyZmkyb216cGdjNjhwYzcifQ.8_obRTsaMH_iUOuLptu9Cg')
+        });*/
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            minZoom: 3,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            continuousWorld: true,
+            accessToken: 'pk.eyJ1IjoiZGVubmlzaGlnaHBvaW50IiwiYSI6ImNremU3NWp3NzAyZmkyb216cGdjNjhwYzcifQ.8_obRTsaMH_iUOuLptu9Cg'
+        }).addTo(map);
+
+        let markers = L.markerClusterGroup();
+        map.addLayer(markers);
+
+        map.fitWorld();
+        map.locate({
+            setView: true, maxZoom: 14, locateOptions: {
+                enableHighAccuracy: true
+            }
+        });
+
+        let searchControl = L.esri.Geocoding.geosearch({ expanded: true, collapseAfterResult: false }).addTo(map);
+
+        let results = L.layerGroup().addTo(map);
+
+        $(".geocoder-control").detach().appendTo('#searchContainer');
+        $(".geocoder-control").css("height", "100%");
+        $(".geocoder-control").css("width", "100%");
+        $(".geocoder-control-input").css("height", "90%");
+
+        document.getElementById("datePicker").valueAsDate = new Date();
+        document.getElementById('datePicker').max = new Date().toLocaleDateString('en-ca')
+
+        function moveDateForward() {
+            let date = new Date(document.getElementById("datePicker").value + "T00:00:00");
+
+            // Add a day
+            if (new Date().toLocaleDateString('en-ca') !== date.toLocaleDateString('en-ca')) {
+                date.setDate(date.getDate() + 1)
+                document.getElementById("datePicker").valueAsDate = date;
+                populateTripsMarkers();
+            }
+        }
+
+        function moveDateBackward() {
+            let date = new Date(document.getElementById("datePicker").value + "T00:00:00");
+
+            // Remove a day
+            date.setDate(date.getDate() - 1)
+            document.getElementById("datePicker").valueAsDate = date;
+            populateTripsMarkers();
+        }
+
+        function showTrips() {
+            map.closePopup();
+            populateTripsMarkers();
+            $("#trackers").hide(animationTime);
+            $("#tripHistory").show(animationTime);
+            $("#trackerSearch").hide(animationTime);
+            $("#tripDeviceTitle").show(animationTime);
+        }
+
+        function closeTrips() {
+            //remove markers
+            if (leafletRoute !== undefined) {
+                map.removeControl(leafletRoute);
+            }
+
+            for (let i = 0; i < tripsHistoryMarkers.length; i++) {
+                map.removeLayer(tripsHistoryMarkers[i])
+            }
+
+            for (let i = 0; i < markersG.length; i++) {
+                if (markersG[i] !== null) {
+                    markers.addLayer(markersG[i]);
+                }
+            }
+
+            $("#tripHistory").hide(animationTime);
+            $("#trackers").show(animationTime);
+            $("#trackerSearch").show(animationTime);
+            $("#tripDeviceTitle").hide(animationTime);
+        }
+
+        function onLocationFound(e) {
+            //let radius = e.accuracy;
+
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("<p style='padding:5px'>You are here. Select a tracker in menu to locate it.</p>", {
+                    className: 'currentLocation',
+                    closeButton: true
+                }).openPopup();
+
+            //L.circle(e.latlng, radius).addTo(map);
+        }
+
+        function formatAMPM(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+        }
+
+        map.on('locationfound', onLocationFound);
+
+        //loading trackers and markers
+
+        let trackersG = [];
+        let markersG = [];
+
+        const populateTrackers = () => {
+            trackerList(localStorage.getItem("userCompany"), (isSuccess, trackers) => {
+                trackersG = trackers;
+                if (isSuccess) {
+                    $("#trackers").empty();
+                    markersG = [];
+                    markers.clearLayers();
+                    if (trackers.length === 0) {
+                        $("#trackers").append(`<br><p style="text-align:center;">No trackers assigned.</p><br>`)
+                    }
+                    for (let i = 0; i < trackers.length; i++) {
+                        let displayAddress = undefined;
+                        if (trackers[i].devicePosition[trackers[i].devicePosition.length - 1]) {
+                            if (trackers[i].devicePosition[trackers[i].devicePosition.length - 1].address !== null) {
+                                displayAddress = trackers[i].devicePosition[trackers[i].devicePosition.length - 1].address;
+                                //document.getElementById(trackers[i].deviceName.replace(" ", "_")).getElementsByClassName("display")[0].textContent = displayAddress;
+                            } else {
+                                reverseGeocoding(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].latitude, trackers[i].devicePosition[trackers[i].devicePosition.length - 1].longitude, (isSuccess, address) => {
+                                    displayAddress = address.address.road + " " + address.address.city + " " + address.address.state + " " + address.address.country;//address.display_name.split(",")[0] + address.display_name.split(",")[1] + address.display_name.split(",")[2] + address.display_name.split(",")[3];
+                                    //document.getElementById(trackers[i].deviceName.replace(" ", "_")).getElementsByClassName("display")[0].textContent = displayAddress;
+                                })
+                            }
+                        }
+                        let newDate = undefined;
+                        let displayDate;
+
+                        if (trackers[i].devicePosition.length > 0) {
+                            displayDate = escapeHtml(new Date(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].deviceTime)).split(" ");
+                            /*newDate.setDate(displayDate[2]);
+                            newDate.setMonth(new Date(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].deviceTime).getMonth());
+                            newDate.setFullYear(new Date(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].deviceTime).getFullYear());
+                            newDate.setHours(displayDate[4].split(":")[0]);
+                            newDate.setMinutes(displayDate[4].split(":")[1]);*/
+                            newDate = new Date(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].deviceTime);
+                        }
+                        $("#trackers").append(
+                            `<div onclick="setMapView('${escapeHtml(trackers[i].deviceName)}', false)" id="${escapeHtml(trackers[i].deviceName.replaceAll(" ", "_"))}" class="plate-cnt standing shared object-type-light truck trackerItem">
+                                                        <div class="blow-background"></div>
+                                                        <div class="title-cnt">
+                                                            <span class="title">
+                                                                <i class="fa-solid fa-car-side"></i>
+                                                                <div style="margin-left:3px;width: 190px;overflow: hidden;display: inline-grid;">
+                                                                    ${escapeHtml(trackers[i].deviceName)}
+                                                                </div>
+                                                                <span onclick="activateModalEdit('${escapeHtml(trackers[i].deviceImei)}','${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].companyName)}', true)" style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'inline-block' : 'none')};" class="btn-elem date"> 
+                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                </span>
+                                                                <!--<div style="float: right;width:74px;">${trackers[i].groupName === 'Root' ? escapeHtml(trackers[i].companyName) : escapeHtml(trackers[i].groupName)}</div>-->
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="property-cnt font-size-middle-big status">
+                                                            <span class="status-description">
+                                                                <div style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'block' : 'none')};width: fit-content; margin-bottom:5px;color: black;padding-top: 7px;padding-left: 7px;padding-right: 7px;padding-bottom: 7px;background: #daecfa !important;" class="item-id inside_text green">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-clock"></i> ${escapeHtml(trackers[i].devicePosition.length > 0 ?/* displayDate[1] + " " + displayDate[2] + ", " + displayDate[3] + " / " + formatAMPM(newDate) + " (" + */timeDiffCalc(newDate) + " ago" : "")}
+                                                                    </div>
+                                                                </div>
+                                                                <div style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'none' : 'block')};width: fit-content;margin-bottom: 3px;" class="item-id inside_text gray">
+                                                                    <div>
+                                                                        <span>
+                                                                            No information
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <p style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'none' : 'block')};">Verify the IMEI is correct, the GPS is turned on / configured properly and refresh this page after a few minutes.</p>
+                                                                <div style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'block' : 'none')};width: fit-content; margin-bottom:5px;color: black;padding-top: 7px;padding-left: 7px;padding-right: 7px;padding-bottom: 7px;background: transparent !important;" class="item-id inside_text yellow">
+                                                                    <div>
+                                                                        <span class="display"><i class="fa-solid fa-location-dot"></i> ${displayAddress}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'block' : 'none')};width: fit-content;margin-top: 3px;margin-bottom: 10px;background-color: transparent !important;" class="item-id inside_text blue">
+                                                                    <div>
+                                                                        <span style="color:black;" class="display"><i class="fa-solid fa-users"></i> Group: ${trackers[i].groupName === 'Root' ? escapeHtml(trackers[i].companyName) : escapeHtml(trackers[i].groupName)}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                        
+                                                        <!--<div onclick="activateModalEdit('${escapeHtml(trackers[i].deviceImei)}','${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].companyName)}', true)" class="property-cnt btn-elem-cnt first">
+                                                            <span style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'block' : 'none')};padding: 0px !important;line-height: 0px !important;" class="btn-elem date"> 
+                                                                <i class="fa-solid fa-pencil"></i> Edit
+                                                            </span>
+                                                        </div>
+                                                        -->
+                                                        <button style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'inline-block' : 'none')} !important;margin-right:2px;text-align: center; width:49%;font-size:13px;background-color: #4c96af !important;" onclick="activateModal('${escapeHtml(trackers[i].deviceImei)}','${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].companyName)}','${escapeHtml(trackers[i].devicePosition.length > 0 && trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.out1 !== undefined ? trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.out1 : undefined)}', true)" class="w3-button w3-green">
+                                                            <i class="fa-solid fa-key"></i> Starter Control
+                                                        </button>
+
+                                                        <button style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'inline-block' : 'none')} !important;text-align: center; width:49%;font-size: 15px;background-color: #749dbe!important;" onclick="showTrips()" class="w3-button w3-blue">
+                                                                <i class="fa-solid fa-road"></i> Trips
+                                                                History
+                                                        </button>
+
+                                                        <!--EXPANDED CONTENT HERE-->
+                                                        <!--
+                                                        <div style="display: none;width: 100%;" class="plate-cnt-expanded">                         
+                                                            <table style="margin-top: 5px;" class="w3-table-all">
+                                                                <tr>
+                                                                    <td><b>Device IMEI</b></td>
+                                                                    <td>${escapeHtml(trackers[i].deviceImei)}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><b>Group</b></td>
+                                                                    <td>${trackers[i].groupName === 'Root' ? escapeHtml(trackers[i].companyName) : escapeHtml(trackers[i].groupName)}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><b>Positions received</b></td>
+                                                                    <td>${escapeHtml(trackers[i].devicePosition.length)}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        -->
+                                                    </div>`)
+                        if (trackers[i].devicePosition.length > 0) {
+                            let latestPositionMarker = L.marker([trackers[i].devicePosition[trackers[i].devicePosition.length - 1].latitude, trackers[i].devicePosition[trackers[i].devicePosition.length - 1].longitude], { icon: arrowIcon, rotationAngle: trackers[i].devicePosition[trackers[i].devicePosition.length - 1].course });
+                            latestPositionMarker.on('click', (e) => {
+                                document.getElementById(trackers[i].deviceName.replaceAll(" ", "_")).click();
+
+                                $("#" + trackers[i].deviceName.replaceAll(" ", "_")).get(0).scrollIntoView();
+
+                                //latestPositionMarker.openPopup();
+                                //event.stopPropagation();
+                                //event.preventDefault();
+                                throw new Error("Manual Abort Script");
+                            });
+                            latestPositionMarker.bindPopup(
+                                `
+                                    <header style="background-color: #5FC6D9;color:white;margin-bottom: 9px;border-top-right-radius: 5px;border-top-left-radius: 5px;" class="w3-container">
+                                        <a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].latitude},${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].longitude}" style="display: inline-block; vertical-align: super;">
+                                            <img class="streetViewIMG" src="https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].latitude}%20${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].longitude}&sensor=false&key=AIzaSyB9Xt0V-Ml-TNytAcS9YyKyrjeYW59B2i8">
+                                            <div class="text-block">
+                                                <h4 style="font-size:10px;font-weight: 700;"><i class="fa-solid fa-street-view"></i> Open Street View</h4>
+                                            </div>
+                                        </a>
+                                        <h1 style="font-size: 20px;display:inline-block;margin-top: -9px;width: 100%;overflow: hidden;"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(trackers[i].deviceName)}</h1>
+                                    </header>
+                                    <div class="divRight">
+                                            <!--<div class="item-id inside_text olive" style="display:block;margin-bottom:3px;overflow:hidden;">IMEI: ${escapeHtml(trackers[i].deviceImei)}</div>-->
+                                            <div class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;margin-bottom:3px;margin-top: 10px;background-color:#4d8ba3;font-size:larger;"><i class="fa-solid fa-users"></i> ${trackers[i].groupName === 'Root' ? escapeHtml(trackers[i].companyName) : escapeHtml(trackers[i].groupName)}</div>
+                                    </div>
+                                    <div class="divRight">
+                                            <div class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;margin-bottom:3px;background-color:#4d8ba3;font-size:larger;">
+                                                <i class="fa-solid fa-battery-three-quarters"></i> ${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.batteryLevel || trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.battery)}%
+                                            </div>
+                                            <div class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;margin-bottom:3px;background-color:#4d8ba3;">
+                                                <i class="fa-solid fa-wifi"></i> ${displayDate[1] + " " + displayDate[2] + ", " + displayDate[3] + " " + formatAMPM(newDate)}
+                                            </div>
+                                            <div onclick="setMapView('${escapeHtml(trackers[i].deviceName)}', false);showTrips();" class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;background-color:#2196F3 !important;cursor:pointer;text-align: center;">
+                                                <i class="fa-solid fa-road"></i> Show Trips History
+                                            </div>
+                                    </div>
+                                    
+                                    <div class="item-id inside_text olive" style="background-color:#5FC6D9;${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.motion ? "display: block;" : "display:none;")};    margin-bottom: 0px;
+                                        width: 99px;
+                                        margin-left: 17px;
+                                        padding-left: 17px;
+                                        padding-right: 20px;
+                                        white-space: nowrap;
+                                        margin-top: -21px;">
+                                        <i class="fa-solid fa-car-side"></i> Moving
+                                    </div>
+                                    <div class="item-id inside_text olive" style="background-color:#5FC6D9;${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.motion ? "display: none;" : "display:block;")};    margin-bottom: 0px;
+                                        width: 99px;
+                                        margin-left: 17px;
+                                        padding-left: 17px;
+                                        padding-right: 20px;
+                                        white-space: nowrap;
+                                        margin-top: -21px;">
+                                        <i class="fa-solid fa-ban"></i> Stopped
+                                    </div>
+                                    `
+                                , {
+                                    closeButton: true,
+                                    autoClose: true
+                                })
+                            markersG.push(latestPositionMarker/*.openPopup()*/);
+                            markers.addLayer(latestPositionMarker);
+                        } else {
+                            markersG.push(null);
+                        }
+                    }
+
+                    $('.plate-cnt').click(function () {
+                        $(this).find(".plate-cnt-expanded").slideToggle('slow');
+                        $(this).siblings().find(".plate-cnt-expanded").slideUp();
+                    });
+
+                    dashboardStats();
+                } else {
+                    window.location.href = "../index.html";
+                }
+            });
+        }
+
+
+        populateTrackers();
+
+
+        document.getElementById("datePicker").addEventListener("change", () => {
+            populateTripsMarkers();
+        })
+
+        let selectedDeviceName = undefined;
+        const setMapView = function (deviceName, bypass) {
+            $("#" + deviceName.replaceAll(" ", "_")).get(0).scrollIntoView();
+            document.getElementById("tripDeviceName").textContent = `${escapeHtml(deviceName)}`;
+            selectedDeviceName = deviceName;
+            for (let i = 0; i < trackersG.length; i++) {
+                if (trackersG[i].devicePosition.length > 0 && trackersG[i].deviceName === deviceName) {
+                    map.setView([trackersG[i].devicePosition[trackersG[i].devicePosition.length - 1].latitude, trackersG[i].devicePosition[trackersG[i].devicePosition.length - 1].longitude], 16);
+                    markersG[i].openPopup();
+                    break;
+                }
+            }
+        }
+
+        let tripsHistoryMarkers = [];
+        let leafletRoute = undefined;
+
+        const populateTripsMarkers = () => {
+            if (leafletRoute !== undefined) {
+                map.removeControl(leafletRoute);
+            }
+            $('#tripsHistoryList').empty();
+            if (document.getElementById("datePicker").value.length > 0) {
+                markers.clearLayers();
+
+                for (let i = 0; i < tripsHistoryMarkers.length; i++) {
+                    map.removeLayer(tripsHistoryMarkers[i])
+                }
+
+                for (let i = 0; i < trackersG.length; i++) {
+                    if (trackersG[i].devicePosition.length > 0 && trackersG[i].deviceName === selectedDeviceName) {
+                        let waypointsToDisplay = [];
+                        let timeStamps = [];
+                        for (let x = 0; x < trackersG[i].devicePosition.length; x++) {
+
+                            let newDate = new Date();
+                            let displayDate;
+
+                            if (trackersG[i].devicePosition.length > 0) {
+                                displayDate = escapeHtml(new Date(trackersG[i].devicePosition[x].deviceTime)).split(" ");
+                                newDate.setHours(displayDate[4].split(":")[0]);
+                                newDate.setMinutes(displayDate[4].split(":")[1]);
+                                newDate.setSeconds(displayDate[4].split(":")[2]);
+                            }
+
+                            if (trackersG[i].devicePosition[x].deviceTime.split("T")[0] === (document.getElementById("datePicker").value + "") && trackersG[i].devicePosition[x]) {
+                                if (x === 0) {
+                                    timeStamps.push({ totalDistance: trackersG[i].devicePosition[x].attributes.totalDistance, speed: trackersG[i].devicePosition[x].speed, course: trackersG[i].devicePosition[x].course, battery: trackersG[i].devicePosition[x].attributes.batteryLevel || trackersG[i].devicePosition[x].attributes.battery, motion: trackersG[i].devicePosition[x].attributes.motion, ignition: trackersG[i].devicePosition[x].attributes.ignition, distance: trackersG[i].devicePosition[x].attributes.distance, time: formatAMPM(newDate), day: trackersG[i].devicePosition[x].deviceTime.split("T")[0], lat: trackersG[i].devicePosition[x].latitude, long: trackersG[i].devicePosition[x].longitude });
+                                } else if (x !== 0 && trackersG[i].devicePosition[x - 1].attributes.motion === trackersG[i].devicePosition[x].attributes.motion) {
+                                    //timeStamps[timeStamps.length - 1].timeEnd = (Math.abs(D - D1) / (1000 * 60) + "").substring(0, 4) + " mins";
+                                    if (timeStamps.length > 0) {
+                                        timeStamps[timeStamps.length - 1].period = formatAMPM(newDate);
+                                    } else {
+                                        timeStamps.push({ totalDistance: trackersG[i].devicePosition[x].attributes.totalDistance, speed: trackersG[i].devicePosition[x].speed, course: trackersG[i].devicePosition[x].course, battery: trackersG[i].devicePosition[x].attributes.batteryLevel || trackersG[i].devicePosition[x].attributes.battery, motion: trackersG[i].devicePosition[x].attributes.motion, ignition: trackersG[i].devicePosition[x].attributes.ignition, distance: trackersG[i].devicePosition[x].attributes.distance, time: formatAMPM(newDate), day: trackersG[i].devicePosition[x].deviceTime.split("T")[0], lat: trackersG[i].devicePosition[x].latitude, long: trackersG[i].devicePosition[x].longitude });
+                                    }
+                                } else if (x !== 0 && trackersG[i].devicePosition[x - 1].attributes.motion !== trackersG[i].devicePosition[x].attributes.motion) {
+                                    //timeStamps[timeStamps.length - 1].timeEnd = (Math.abs(D - D1) / (1000 * 60) + "").substring(0, 4) + " mins";
+                                    if (timeStamps.length > 0) {
+                                        timeStamps[timeStamps.length - 1].period = formatAMPM(newDate);
+                                    }
+                                    timeStamps.push({ totalDistance: trackersG[i].devicePosition[x].attributes.totalDistance, speed: trackersG[i].devicePosition[x].speed, course: trackersG[i].devicePosition[x].course, battery: trackersG[i].devicePosition[x].attributes.batteryLevel || trackersG[i].devicePosition[x].attributes.battery, motion: trackersG[i].devicePosition[x].attributes.motion, ignition: trackersG[i].devicePosition[x].attributes.ignition, distance: trackersG[i].devicePosition[x].attributes.distance, time: formatAMPM(newDate), day: trackersG[i].devicePosition[x].deviceTime.split("T")[0], lat: trackersG[i].devicePosition[x].latitude, long: trackersG[i].devicePosition[x].longitude });
+                                }
+                            }
+                        }
+
+                        if (timeStamps.length === 0) {
+                            $('#tripsHistoryList').append(`No trips recorded for this day, select another day by pressing the calendar icon.`);
+                        }
+
+                        //console.log(timeStamps);
+
+                        $('#tripsHistoryList')
+                            .append(`<div class="route_elem_cnt offdevice_cnt">
+                                                                    <div class="time_cnt">
+                                                                        <div class="time start_time">
+                                                                            <div class="time_elem">
+                                                                                <span>1:00 am</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elem_img">
+                                                                            <div class="img"></div>
+                                                                        </div>
+                                                                        <!--
+                                                                        <div class="time end_time"">
+                                                                            <div class="time_elem">
+                                                                                <span></span>
+                                                                            </div>
+                                                                        </div> -->
+                                                                    </div>
+                                                                    <div class="marker_cnt">
+                                                                        <div class="marker separator"></div>
+                                                                        <div class="marker main"></div>
+                                                                        <div class="marker separator"></div>
+                                                                    </div>
+                                                                    <div class="value_cnt">
+                                                                        <div class="title_txt">No information</div>
+                                                                    </div>
+                                                                </div>`);
+
+                        for (let x = 0; x < timeStamps.length; x++) {
+                            $('#tripsHistoryList')
+                                .append(`<div style="cursor:pointer;" onclick="map.setView([${timeStamps[x].lat},${timeStamps[x].long}], 16)" class="route_elem_cnt offdevice_cnt">
+                                                                    <div class="time_cnt">
+                                                                        <div class="time start_time">
+                                                                            <div class="time_elem">
+                                                                                <span>${timeStamps[x].time}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elem_img">
+                                                                            <div class="img"></div>
+                                                                        </div>
+                                                                        <!--
+                                                                        <div class="time end_time"">
+                                                                            <div class="time_elem">
+                                                                                <span>${timeStamps[x].timeEnd ? timeStamps[x].timeEnd : ""}</span>
+                                                                            </div>
+                                                                        </div> -->
+                                                                    </div>
+                                                                    <div class="marker_cnt">
+                                                                        <div class="marker separator"></div>
+                                                                        <div class="marker main"></div>
+                                                                        <div class="marker separator"></div>
+                                                                    </div>
+                                                                    <div class="value_cnt">
+                                                                        <div style="${!timeStamps[x].motion && timeStamps[x].ignition ? 'display:block' : 'display:none'}" class="title_txt"><i class="fa-solid fa-hourglass-clock"></i> Stopped</div>
+                                                                        <div style="${!timeStamps[x].motion && !timeStamps[x].ignition ? 'display:block' : 'display:none'}; color: crimson !important" class="title_txt"><i class="fa-solid fa-moon"></i> Car turned off</div>
+                                                                        <div style="${timeStamps[x].motion && timeStamps[x].ignition ? 'display:block' : 'display:none'}; color: green !important " class="title_txt"><i class="fa-solid fa-steering-wheel"></i> Driving</div>
+                                                                        <div style="${timeStamps[x].motion && !timeStamps[x].ignition ? 'display:block' : 'display:none'}; color: #d17d00 !important" class="title_txt"><i class="fa-solid fa-person-running"></i> Moving (no ignition)</div>
+                                                                        <!--<div class="value_txt">
+                                                                            <span>${timeStamps[x].timeEnd ? timeStamps[x].timeEnd : ""}</span>
+                                                                        </div>-->
+                                                                    </div>
+                                                                </div>`);
+
+                            let marker = new L.Marker([timeStamps[x].lat, timeStamps[x].long], { icon: greenIcon, rotationAngle: timeStamps[x].course });
+                            map.addLayer(marker);
+                            marker.bindPopup(
+                                /*`<header style="background-color:#5FC6D9;border-radius:5px;" class="w3-container">
+                                        <a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=${timeStamps[x].lat},${timeStamps[x].long}" style="display: inline-block; vertical-align: super;"><img src="../images/street-view.png" style="height: 31px;display: inline-block;margin-right:10px;"></a>
+                                        <h1 style="font-size: 20px;display:inline-block;">
+                                                                        <div style="${!timeStamps[x].motion && timeStamps[x].ignition ? 'display:block' : 'display:none'}" class="title_txt"><b>Stopped</b></div>
+                                                                        <div style="${!timeStamps[x].motion && !timeStamps[x].ignition ? 'display:block' : 'display:none'}; color: crimson !important" class="title_txt"><b>Car turned off</b></div>
+                                                                        <div style="${timeStamps[x].motion && timeStamps[x].ignition ? 'display:block' : 'display:none'}; color: green !important " class="title_txt"><b>Driving</b></div>
+                                                                        <div style="${timeStamps[x].motion && !timeStamps[x].ignition ? 'display:block' : 'display:none'}; color: #d17d00 !important" class="title_txt"><b>Moving (no ignition)</b></div>
+                                        </h1>
+                                    </header>
+                                    <table class="w3-table w3-striped">
+                                        <tr>
+                                            <td>Device time: <div style="${timeStamps[x].period ? 'display:block' : 'display:none'}">${timeStamps[x].period} to</div> ${timeStamps[x].time}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Distance: ${timeStamps[x].distance} meters</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total distance: ${timeStamps[x].totalDistance} meters</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Battery: ${timeStamps[x].battery}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Speed: ${timeStamps[x].speed * 1.852} km/h</td>
+                                        </tr>
+                                    </table>`*/
+                                `
+                                    <header style="background-color: #5FC6D9;color:white;margin-bottom: 9px;border-top-right-radius: 5px;border-top-left-radius: 5px;" class="w3-container">
+                                        <a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=${timeStamps[x].lat},${timeStamps[x].long}" style="display: inline-block; vertical-align: super;">
+                                            <img class="streetViewIMG" src="https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${timeStamps[x].lat}%20${timeStamps[x].long}&sensor=false&key=AIzaSyB9Xt0V-Ml-TNytAcS9YyKyrjeYW59B2i8">
+                                            <div class="text-block">
+                                                <h4 style="font-size:10px;font-weight: 700;"><i class="fa-solid fa-street-view"></i> Open Street View</h4>
+                                            </div>
+                                        </a>
+                                        <h1 style="font-size: 20px;display:inline-block;margin-top: -9px;width: 100%;overflow: hidden;"><i class="fa-solid fa-clock"></i> ${timeStamps[x].time}</h1>
+                                    </header>
+                                    <div class="divRight">
+                                            <div class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;margin-bottom:15px;margin-top: 10px;background-color:#4d8ba3;font-size:larger;">Distance: ${timeStamps[x].distance} meters</div>
+                                    </div>
+                                    <div class="divRight">
+                                            <div class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;margin-bottom:15px;background-color:#4d8ba3;font-size:larger;"><i class="fa-solid fa-battery-three-quarters"></i> ${timeStamps[x].battery}%</div>
+                                            <div class="item-id inside_text olive" style="overflow: hidden;white-space: nowrap;padding:6px;display:block;margin-bottom:20px;background-color:#4d8ba3;"><i class="fa-solid fa-gauge-high"></i> ${((timeStamps[x].speed * 1.852) + "").substring(0, 4)} km/h</div>
+                                    </div>
+                                    <div class="divRight">
+                                    </div>
+                                    <div style="${!timeStamps[x].motion && timeStamps[x].ignition ? 'display:block' : 'display:none'}" class="title_txt statusCard"><i class="fa-solid fa-hourglass-clock"></i> Stopped</div>
+                                    <div style="${!timeStamps[x].motion && !timeStamps[x].ignition ? 'display:block' : 'display:none'}" class="title_txt statusCard"><i class="fa-solid fa-moon"></i> Car turned off</div>
+                                    <div style="${timeStamps[x].motion && timeStamps[x].ignition ? 'display:block' : 'display:none'}" class="title_txt statusCard"><i class="fa-solid fa-steering-wheel"></i> Driving</div>
+                                    <div style="${timeStamps[x].motion && !timeStamps[x].ignition ? 'display:block' : 'display:none'}" class="title_txt statusCard"><i class="fa-solid fa-person-running"></i> Moving (no ignition)</div>`
+                                , { closeOnClick: false, autoClose: true }).openPopup();
+                            tripsHistoryMarkers.push(marker);
+
+                            if (timeStamps[x].lat !== 0 && timeStamps[x].long !== 0) {
+                                waypointsToDisplay.push(L.latLng(timeStamps[x].lat, timeStamps[x].long));
+                            }
+                        }
+
+                        if (timeStamps.length > 0) {
+                            $('#tripsHistoryList')
+                                .append(`<div style="padding-bottom:15px;" class="route_elem_cnt offdevice_cnt">
+                                                                    <div class="time_cnt">
+                                                                        <div class="time start_time">
+                                                                            <div class="time_elem">
+                                                                                <span style="display:${timeStamps[timeStamps.length - 1].period ? "block" : "none"}">${timeStamps[timeStamps.length - 1].period}</span>
+                                                                                <span style="display:${timeStamps[timeStamps.length - 1].period ? "none" : "block"}">${timeStamps[timeStamps.length - 1].time}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elem_img">
+                                                                            <div class="img"></div>
+                                                                        </div>
+                                                                        <div class="time end_time"">
+                                                                            <div class="time_elem">
+                                                                                <span>12:00 pm</span>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div class="marker_cnt">
+                                                                        <div class="marker separator"></div>
+                                                                        <div class="marker main"></div>
+                                                                        <div class="marker separator"></div>
+                                                                    </div>
+                                                                    <div class="value_cnt">
+                                                                        <div class="title_txt">No information</div>
+                                                                    </div>
+                                                                </div>`);
+                        } else {
+                            $('#tripsHistoryList')
+                                .append(`<div style="padding-bottom:15px;" class="route_elem_cnt offdevice_cnt">
+                                                                    <div class="time_cnt">
+                                                                        <div class="time start_time">
+                                                                            <div class="time_elem">
+                                                                                <span></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="elem_img">
+                                                                            <div class="img"></div>
+                                                                        </div>
+                                                                        <div class="time end_time"">
+                                                                            <div class="time_elem">
+                                                                                <span>12:00 pm</span>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div class="marker_cnt">
+                                                                        <div class="marker separator"></div>
+                                                                        <div class="marker main"></div>
+                                                                        <div class="marker separator"></div>
+                                                                    </div>
+                                                                    <div class="value_cnt">
+                                                                        <div class="title_txt">No information</div>
+                                                                    </div>
+                                                                </div>`);
+                        }
+
+                        if (waypointsToDisplay.length > 1) {
+                            leafletRoute = L.Routing.control({
+                                waypoints: waypointsToDisplay,
+                                createMarker: function () { return null; }
+                            }).addTo(map);
+                        }
+                        break;
+                    }
+                }
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>

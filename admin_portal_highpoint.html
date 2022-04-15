@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="js/httpRequests.js"></script>
+</head>
+
+<body>
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">High Point GPS</div>
+        </ons-toolbar>
+        <div style="text-align: center;
+        background-color: aliceblue;
+        padding: 10px;
+        width: 50%;
+        margin: auto;
+        margin-top: 200px;
+        border-radius: 10px;
+        opacity: 0.95;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -70%);
+        transform: translate(-50%, -70%);">
+            <ons-list-title style="display:block;width:138px;margin:auto;">
+                <p style="width: fit-content;
+                text-align: center;
+                padding: 0px;
+                margin: auto;
+                margin-bottom: 10px;
+                margin-top: 10px;">Admin</p>
+                <img style="width:110px;" src="./images/logo.png">
+            </ons-list-title>
+            <p>
+                <ons-input style="width:50%;" id="email" placeholder="Email" modifier="underbar"></ons-input>
+            </p>
+
+            <p>
+                <ons-input style="width:50%;" id="password" placeholder="Password" type="password" modifier="underbar">
+                </ons-input>
+            </p>
+
+            <label class="left">
+                <ons-checkbox id="checkboxRemember" onclick="rememberInfo()" input-id="check-1"></ons-checkbox>
+            </label>
+            <label for="check-1" class="center">
+                Remember me
+            </label>
+
+            <p>
+                <ons-button onclick="loginSubmit()">Sign in</ons-button>
+            </p>
+        </div>
+
+    </ons-page>
+    <style>
+        .page__content {
+            background: url(./images/login_back.jpg) no-repeat center !important;
+            background-size: cover !important;
+        }
+    </style>
+    <script>
+        ons.disableAutoStyling();
+
+        //cookies to remember if user or installer, remember me button 
+        const loginSubmit = () => {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let loginInfo = { email, password };
+
+            if (document.getElementById("checkboxRemember").checked) {
+                rememberInfo();
+            } else {
+                localStorage.removeItem("adminEmail");
+            }
+
+            loginAdmin(loginInfo, (isSuccess, data) => {
+                if (isSuccess) {//data.company, installerEmail: data.installerEmail, userEmail: data.email 
+                    window.location.href = "./pages/admin_dashboard.html";
+                } else {
+                    ons.notification.toast(data, { timeout: 1000, animation: 'fall' })
+                }
+            });
+        }
+
+        const rememberInfo = () => {
+            localStorage.setItem("userEmail", document.getElementById("email").value);
+        }
+
+        if (localStorage.getItem("userEmail")) {
+            document.getElementById("email").value = localStorage.getItem("userEmail");
+            document.getElementById("checkboxRemember").checked = true;
+        }
+
+    </script>
+</body>
+
+</html>

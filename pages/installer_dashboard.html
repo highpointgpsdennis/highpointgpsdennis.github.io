@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/jquery.orgchart.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <!--<script src="../js/OrgChart.js"></script>-->
+    <script src="../js/httpRequests.js"></script>
+    <script src="../js/lodash.js"></script>
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/jquery.orgchart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+</head>
+
+<body style="overflow:hidden; height:102vh">
+    <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+    <input style="display: none" type="text" name="fakeusernameremembered" />
+    <input style="display: none" type="password" name="fakepasswordremembered" />
+
+    <ons-page style="padding-bottom: 110px; overflow:hidden;">
+        <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
+
+        <ons-toolbar>
+            <div class="center">High Point GPS</div>
+            <div class="left">
+                <ons-toolbar-button onclick="logoutInstaller()">Sign out</ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+        <div
+            style="width: 100%;height: 110vh;float: right;border-left:solid;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;border-width: 1px;border-color:#888;">
+
+
+            <template id="page1.html">
+                <ons-page id="page1">
+                    <!--<ons-button style="position:fixed;" onclick="showTemplateDialog('addcompany')"
+                        modifier="large--quiet">
+                        <ons-icon icon="md-plus"></ons-icon>
+                        Add company
+                    </ons-button>-->
+
+                    <ons-dialog style="display: block;" id="addcompany">
+                        <div style="text-align: center; padding: 10px;">
+                            <br>
+                            <b>Add company</b>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Company name:
+                                </b>
+                                <ons-input id="companyNameAdd" modifier="underbar" placeholder="Company name" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Address:
+                                </b>
+                                <ons-input id="companyAddressAdd" modifier="underbar" placeholder="Address" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Phone:
+                                </b>
+                                <ons-input id="companyPhoneAdd" modifier="underbar" placeholder="Phone" float>
+                                </ons-input>
+                            </p>
+
+                            <p style="display:inline-block;">
+                                <ons-button style="display:inline-block;" onclick="hideDialog('addcompany', true)">
+                                    <ons-icon size="20px" icon="fa-plus"></ons-icon> Save add
+                                </ons-button>
+                            </p>
+                            <p style="display:inline-block;">
+                                <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
+                                    onclick="hideDialog('addcompany', false)">
+                                    <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel add
+                                </ons-button>
+                            </p>
+                        </div>
+                    </ons-dialog>
+
+                    <ons-dialog style="display: block;" id="editcompany">
+                        <div style="text-align: center; padding: 10px;">
+                            <br>
+                            <b>Edit company</b>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Company name:
+                                </b>
+                                <ons-input id="companyNameEdit" modifier="underbar" placeholder="Company name" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Address:
+                                </b>
+                                <ons-input id="companyAddressEdit" modifier="underbar" placeholder="Address" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Phone:
+                                </b>
+                                <ons-input id="companyPhoneEdit" modifier="underbar" placeholder="Phone" float>
+                                </ons-input>
+                            </p>
+
+                            <p style="display:inline-block;">
+                                <ons-button style="display:inline-block;" onclick="hideDialog('editcompany', true)">
+                                    <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                </ons-button>
+                            </p>
+                            <p style="display:inline-block;">
+                                <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
+                                    onclick="hideDialog('editcompany', false)">
+                                    <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                </ons-button>
+                            </p>
+                        </div>
+                    </ons-dialog>
+
+                    <ons-dialog style="display: block;" id="editinstaller">
+                        <div style="text-align: center; padding: 10px;">
+                            <br>
+                            <b>Edit installer</b>
+                            <div autocomplete="off" style="width:100%;margin-top:20px;margin-bottom:5px;" onchange="">
+                                <ons-row
+                                    style="border-bottom: solid;border-top: solid;border-width: thin;margin-bottom: 10px;border-color: darkgray;">
+                                    <br>
+                                    <img id="uploadedIMG"
+                                        style="width: 150px;height: 83px;margin-right: 10px;margin-left: 10px;" src="">
+                                    <br>
+                                    <br>
+
+                                    <ons-col>
+                                        <div>
+                                            <b style="float:left;">Upload company logo</b>
+
+                                        </div>
+                                        <input style="display: block;" onchange='addLogoImage()' id="logoupload"
+                                            type="file" accept="image/*" autocomplete="off">
+                                        <small style="display:block;float:left;">Logo size should be 150x83</small>
+                                        <br>
+
+                                    </ons-col>
+
+                                </ons-row>
+                            </div>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Email:
+                                </b>
+                                <ons-input id="installerEmailEdit" modifier="underbar" placeholder="Email" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Company name:
+                                </b>
+                                <ons-input id="installerCompanyEdit" modifier="underbar" placeholder="Company" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                    Password:
+                                </b>
+                                <ons-input type="password" id="installerPasswordEdit" modifier="underbar"
+                                    placeholder="Password" float>
+                                </ons-input>
+                            </p>
+
+                            <p style="display:inline-block;">
+                                <ons-button style="display:inline-block;"
+                                    onclick="hideDialog('editinstaller', true); saveInstallerInfo();">
+                                    <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                </ons-button>
+                            </p>
+                            <p style="display:inline-block;">
+                                <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
+                                    onclick="hideDialog('editinstaller', false)">
+                                    <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                </ons-button>
+                            </p>
+                        </div>
+                    </ons-dialog>
+
+                    <ons-alert-dialog id="deletecompany" modifier="rowfooter">
+                        <div class="alert-dialog-content">
+                            Are you sure you want to delete this company, all it's users, trackers and groups? THIS
+                            CANNOT BE UNDONE.
+                        </div>
+                        <div class="alert-dialog-footer">
+                            <ons-alert-dialog-button onclick="hideDialog('deletecompany',false)">Cancel
+                            </ons-alert-dialog-button>
+                            <ons-alert-dialog-button onclick="hideDialog('deletecompany',true)">Delete
+                            </ons-alert-dialog-button>
+                        </div>
+                    </ons-alert-dialog>
+
+
+
+                    <!--<div autocomplete="off" style="width:100%;margin-top:50px;margin-bottom:5px;" onchange="">
+                        <ons-row
+                            style="border-bottom: solid;border-top: solid;border-width: thin;margin-bottom: 10px;border-color: darkgray;">
+                            <br>
+                            <img id="uploadedIMG"
+                                style="width: 150px;height: 83px;margin-right: 10px;margin-left: 10px;" src="">
+                            <br>
+                            <br>
+
+                            <ons-col>
+                                <div>
+                                    <b>Upload company logo</b>
+
+                                </div>
+                                <input onchange='addLogoImage()' id="logoupload" type="file" accept="image/*"
+                                    autocomplete="off">
+                                <small style="display:block;">Logo size should be 150x83</small>
+                                <br>
+
+                            </ons-col>
+
+                        </ons-row>
+                    </div>-->
+
+                    <ons-search-input id="searchCompany" autocomplete="off"
+                        style="width:100%;margin-bottom:5px;margin-top:50px;" placeholder="Search"
+                        onkeyup="triggerCompanySearchListener()"></ons-search-input>
+
+                    <div style="height: 83%;
+                    overflow-y: scroll !important;
+                    margin-top: 5px;">
+                        <ons-list-header>Select company</ons-list-header>
+                        <ons-list-item>
+                            <ons-list style="width:100%;" modifier="inset">
+
+                                <div class="row">
+
+                                </div>
+
+                            </ons-list>
+                        </ons-list-item>
+                    </div>
+                </ons-page>
+            </template>
+
+            <template id="users.html">
+                <ons-page id="users">
+                    <div id="userTableDisplay" style="width: 100%;height: 95%;overflow-y:scroll;">
+                        <div style="width:100%; position: fixed;background-color:#efeff4;z-index:100">
+                            <div style="display:inline-block;float: left;position:absolute;" class="left">
+                                <ons-back-button>Back</ons-back-button>
+                            </div>
+                            <ons-button onclick="showTemplateDialog('adduser')" style="display: block;margin: auto;text-align: center;width: fit-content;
+                            margin-top: 5px;" modifier="quiet">
+                                <ons-icon icon="md-plus"></ons-icon>
+                                Add user
+                            </ons-button>
+
+                            <ons-search-input id="searchUser" autocomplete="off"
+                                style="width:100%;margin-top:5px;margin-bottom:5px;"
+                                onkeyup="triggerUserSearchListener()" placeholder="Search">
+                            </ons-search-input>
+                        </div>
+
+                        <ons-dialog id="adduser">
+                            <div style="text-align: center; padding: 10px;">
+                                <br>
+                                <b>New user account</b>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        First name:
+                                    </b>
+                                    <ons-input id="fname" modifier="underbar" placeholder="First name" float>
+                                    </ons-input>
+                                </p>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        Last name:
+                                    </b>
+                                    <ons-input id="lname" modifier="underbar" placeholder="Last name" float>
+                                    </ons-input>
+                                </p>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        Email:
+                                    </b>
+                                    <ons-input id="userEmail" modifier="underbar" placeholder="Email" float>
+                                    </ons-input>
+                                </p>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        Password:
+                                    </b>
+                                    <ons-input type="password" id="userPassword" modifier="underbar" type="password"
+                                        placeholder="Password" float></ons-input>
+                                </p>
+                                <p style="display:inline-block;">
+                                    <ons-button style="display:inline-block;" onclick="hideDialog('adduser', true)">
+                                        <ons-icon size="20px" icon="fa-plus"></ons-icon> Save add
+                                    </ons-button>
+                                </p>
+                                <p style="display:inline-block;">
+                                    <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
+                                        onclick="hideDialog('adduser', false)">
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel add
+                                    </ons-button>
+                                </p>
+                            </div>
+                        </ons-dialog>
+
+                        <ons-dialog id="editgroup">
+                            <div style="text-align: center; padding: 10px;">
+                                <br>
+                                <b>Edit groups</b>
+                                <div style="text-align: left;">
+                                    <ons-search-input autocomplete="off" id="search"
+                                        style="width:100%;margin-top:5px;margin-bottom:5px;" placeholder="Search">
+                                    </ons-search-input>
+                                    <div id="jstree">
+                                    </div>
+                                </div>
+
+                                <p style="display:inline-block;">
+                                    <ons-button onclick="hideDialog('editgroup', true)">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                    </ons-button>
+                                </p>
+                                <p style="display:inline-block;">
+                                    <ons-button style="background-color:rgb(255, 64, 64)"
+                                        onclick="hideDialog('editgroup', false)">
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                    </ons-button>
+                                </p>
+                            </div>
+                        </ons-dialog>
+
+                        <ons-alert-dialog id="deleteuser" modifier="rowfooter">
+                            <div class="alert-dialog-content">
+                                Are you sure you want to this user? THIS
+                                CANNOT BE UNDONE.
+                            </div>
+                            <div class="alert-dialog-footer">
+                                <ons-alert-dialog-button onclick="hideDialog('deleteuser',false)">Cancel
+                                </ons-alert-dialog-button>
+                                <ons-alert-dialog-button onclick="hideDialog('deleteuser',true)">Delete
+                                </ons-alert-dialog-button>
+                            </div>
+                        </ons-alert-dialog>
+
+                        <ons-list style="margin-top:95px">
+                            <ons-list-header>Select user</ons-list-header>
+                            <div id="userHeader">
+                                <ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Groups</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>
+                            </div>
+                        </ons-list>
+                    </div>
+                </ons-page>
+            </template>
+
+            <template id="trackers.html">
+                <ons-page id="trackers">
+                    <div id="trackerTableDisplay" style="width: 100%;height: 95%;overflow-y:scroll;">
+                        <div style="width:100%; position: fixed;background-color:#efeff4;z-index:100">
+                            <div style="display:inline-block;float: left;position:absolute;" class="left">
+                                <ons-back-button>Back</ons-back-button>
+                            </div>
+                            <!--
+                            <ons-button onclick="showTemplateDialog('addtracker')" style="display: block;margin: auto;text-align: center;width: fit-content;
+                            margin-top: 5px;" modifier="quiet">
+                                <ons-icon icon="md-plus"></ons-icon>
+                                Add tracker
+                            </ons-button>-->
+                            <ons-search-input id="searchTracker" autocomplete="off"
+                                onkeyup="triggerTrackerSearchListener()"
+                                style="width:100%;margin-top: 50px;margin-bottom:5px;" placeholder="Search">
+                            </ons-search-input>
+                        </div>
+
+
+                        <ons-dialog id="addtracker">
+                            <div style="text-align: center; padding: 10px;">
+                                <br>
+                                <b>Add tracker</b>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        Tracker name:
+                                    </b>
+                                    <ons-input id="trackerName" modifier="underbar" placeholder="Name" float>
+                                    </ons-input>
+                                </p>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        IMEI:
+                                    </b>
+                                    <ons-input id="trackerImei" modifier="underbar" placeholder="IMEI" float>
+                                    </ons-input>
+                                </p>
+                                <p>
+                                    <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                        Group:
+                                    </b>
+                                    <ons-select modifier="underbar" placeholder="Group" float>
+                                        <select id="trackerGroup">
+
+                                        </select>
+                                    </ons-select>
+                                </p>
+
+                                <p style="display:inline-block;">
+                                    <ons-button onclick="hideDialog('addtracker', true)">
+                                        <ons-icon size="20px" icon="fa-plus"></ons-icon> Save add
+                                    </ons-button>
+                                </p>
+                                <p style="display:inline-block;">
+                                    <ons-button style="background-color:rgb(255, 64, 64)"
+                                        onclick="hideDialog('addtracker', false)">
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel add
+                                    </ons-button>
+                                </p>
+                            </div>
+                        </ons-dialog>
+
+                        <ons-alert-dialog id="deletetracker" modifier="rowfooter">
+                            <div class="alert-dialog-content">
+                                Are you sure you want to delete this tracker? THIS
+                                CANNOT BE UNDONE.
+                            </div>
+                            <div class="alert-dialog-footer">
+                                <ons-alert-dialog-button onclick="hideDialog('deletetracker',false)">Cancel
+                                </ons-alert-dialog-button>
+                                <ons-alert-dialog-button onclick="hideDialog('deletetracker',true)">Delete
+                                </ons-alert-dialog-button>
+                            </div>
+                        </ons-alert-dialog>
+
+                        <ons-list style="margin-top:95px">
+                            <ons-list-header>Select trackers</ons-list-header>
+                            <div id="trackerHeader">
+                                <ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Tracker Name</th>
+                                                <th>IMEI</th>
+                                                <th>Group</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>
+                            </div>
+                        </ons-list>
+                    </div>
+                </ons-page>
+            </template>
+
+            <template id="groups.html">
+                <ons-page id="groups">
+                    <div id="groupTableDisplay" style="width: 100%;height: 95%;overflow-y:scroll;">
+                        <div class="left">
+                            <div id="leaveAfterSaveMask" style="pointer-events: all;"
+                                onclick="popWarningAfterChange();">
+                                <ons-back-button style="pointer-events: none;" id="bkBut">Back</ons-back-button>
+                            </div>
+                        </div>
+
+                        <ons-alert-dialog id="leaveAfterSave" modifier="rowfooter">
+                            <div class="alert-dialog-content">
+                                Would you like to save your changes before leaving?
+                            </div>
+                            <div class="alert-dialog-footer">
+                                <ons-alert-dialog-button onclick="hideDialog('leaveAfterSave',true)">Save
+                                </ons-alert-dialog-button>
+                                <ons-alert-dialog-button onclick="hideDialog('leaveAfterSave',false)">Leave
+                                </ons-alert-dialog-button>
+                            </div>
+                        </ons-alert-dialog>
+
+                        <div id="orgChartContainer">
+                            <div id="orgChart"></div>
+                        </div>
+                    </div>
+                </ons-page>
+            </template>
+
+        </div>
+        <ons-bottom-toolbar style="text-align: center;padding-top:2.5px;">
+            High Point GPS - &copy; 2022 All Rights Reserved
+        </ons-bottom-toolbar>
+    </ons-page>
+    <script>
+        ons.disableAutoStyling();
+
+        let cssIDCounter = 0;
+        const entityMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '/': '&#x2F;',
+            '`': '&#x60;',
+            '=': '&#x3D;',
+            '(': '&#40;',
+            ')': '&#41;'
+        };
+
+        const escapeHtml = (string) => {
+            return String(string).replace(/[&<>"'`=()\/]/g, function (s) {
+                return entityMap[s];
+            });
+        }
+
+        function logoutInstaller() {
+            logout((isSuccess, msg) => {
+                if (isSuccess) {
+                    window.location.href = "../index.html";
+                }
+            })
+        }
+
+        const loginAsUserButton = (email) => {
+            loginAsUser({ email }, (isSuccess, data) => {
+                if (isSuccess) {//data.company, installerEmail: data.installerEmail, userEmail: data.email 
+                    localStorage.setItem("userCompany", data.company);
+                    localStorage.setItem("userInstaller", data.installerEmail);
+                    localStorage.setItem("userEmail", data.userEmail);
+                    localStorage.setItem("userFname", data.userFname);
+                    localStorage.setItem("userLname", data.userLname);
+                    localStorage.setItem("installerCompany", data.installerCompany);
+                    window.location.href = "./user_dashboard.html";
+                } else {
+                    ons.notification.toast(data, { timeout: 1000, animation: 'fall' })
+                }
+            });
+        }
+
+        let editInstallerG = undefined;
+        function editInstallerInfo(installerEmail, companyName) {
+            showTemplateDialog('editinstaller');
+            editInstallerG = installerEmail;
+            document.getElementById("installerEmailEdit").value = installerEmail;
+            document.getElementById("installerCompanyEdit").value = companyName;
+            document.getElementById("uploadedIMG").src = logoG;
+        }
+
+        function saveInstallerInfo() {
+            let updatedInstaller = {};
+            updatedInstaller.email = editInstallerG;
+            updatedInstaller.updatedEmail = document.getElementById("installerEmailEdit").value;
+            updatedInstaller.updatedCompanyName = document.getElementById("installerCompanyEdit").value;
+
+            if (document.getElementById("installerPasswordEdit").value.length > 0) {
+                updatedInstaller.updatedPassword = document.getElementById("installerPasswordEdit").value;
+            }
+            //getCompanyList();
+
+            adminEditInstaller(updatedInstaller, (isSuccess, msg) => {
+                if (isSuccess) {
+                    getCompanyList();
+                } else {
+                    ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                }
+            })
+        }
+
+        function triggerCompanySearchListener() {
+            // On key stroke search listener
+            let companies = document.getElementsByClassName("companyItem");
+            let searchInput = document.getElementById("searchCompany").value;
+
+            if (searchInput.length > 0) {
+                for (let i = 0; i < companies.length; i++) {
+                    if (companies[i].id.toUpperCase().includes(searchInput.toUpperCase())) {
+                        companies[i].style.display = "";
+                    } else {
+                        document.getElementsByClassName("companyItem")[i].style.display = "none";
+                    }
+                }
+            } else {
+                for (let i = 0; i < companies.length; i++) {
+                    companies[i].style.display = "";
+                }
+            }
+        }
+
+        function triggerUserSearchListener() {
+            // On key stroke search listener
+            let users = document.getElementsByClassName("userItem");
+            let searchInput = document.getElementById("searchUser").value;
+
+            if (searchInput.length > 0) {
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i].id.includes(searchInput)) {
+                        users[i].style.display = "block";
+                    } else {
+                        document.getElementsByClassName("userItem")[i].style.display = "none";
+                    }
+                }
+            } else {
+                for (let i = 0; i < users.length; i++) {
+                    users[i].style.display = "block";
+                }
+            }
+        }
+
+        function triggerTrackerSearchListener() {
+            // On key stroke search listener
+            let trackers = document.getElementsByClassName("trackerItem");
+            let searchInput = document.getElementById("searchTracker").value;
+
+            if (searchInput.length > 0) {
+                for (let i = 0; i < trackers.length; i++) {
+                    if (trackers[i].id.includes(searchInput)) {
+                        trackers[i].style.display = "block";
+                    } else {
+                        document.getElementsByClassName("trackerItem")[i].style.display = "none";
+                    }
+                }
+            } else {
+                for (let i = 0; i < trackers.length; i++) {
+                    trackers[i].style.display = "block";
+                }
+            }
+        }
+
+        const addLogoImage = async () => {
+            let reader = new FileReader();
+            reader.readAsDataURL(document.getElementById("logoupload").files[0]);
+            reader.onload = function () {
+                addLogo(reader.result, (isSuccess, data) => {
+                    if (isSuccess) {
+                        document.getElementById("uploadedIMG").src = reader.result;
+                        document.getElementById(installerG).src = reader.result;
+                        return;
+                    } else {
+                        ons.notification.toast(data, { timeout: 5000, animation: 'fall' })
+                        return;
+                    }
+                });
+            };
+            reader.onerror = function (error) {
+                ons.notification.toast(error, { timeout: 5000, animation: 'fall' })
+            };
+        }
+
+        let installerG = undefined;
+        let logoG = undefined;
+        let companiesG = undefined;
+
+        const getCompanyList = () => {
+            $(".row").empty();
+            getLogo((isSuccess, data) => {
+                if (isSuccess) {
+                    installerG = data.installerName;
+                    logoG = data.img;
+                    //document.getElementById("uploadedIMG").src = data.img;
+                    $(".row").append(`<div class="companyItem" id="${escapeHtml(data.installerName)}" class="companyAlign column">
+                                        <ons-list-header class="companyTitle" style="font-size:medium">
+                                        <img id="${escapeHtml(data.installerName)}" class="companyItem" src="${escapeHtml(data.img)}" style="margin-top: 5px;margin-bottom: 5px;display:inline-block;width: 150px; height: 83px;margin-right:5px;vertical-align: middle;">
+                                        <h1 style="display:inline-block">${escapeHtml(data.installerName)} 
+                                        <ons-button style="margin-left:30px;" onclick="editInstallerInfo('${escapeHtml(data.installerName)}','${escapeHtml(data.installerCompany)}')">Edit installer info</ons-button>
+                                        </h1>
+                                        <ons-button style="width: fit-content;display: inline-block;" onclick="showTemplateDialog('addcompany')"
+                                            modifier="large--quiet">
+                                            <ons-icon icon="md-plus"></ons-icon>
+                                            Add company
+                                        </ons-button>
+                                        </ons-list-header>
+                                    </div>`);
+                    companyList((isSuccess, companies) => {
+                        if (isSuccess) {
+                            companiesG = companies;
+                            if (companies.length === 0) {
+                                $(".row").append(`<br><p style="text-align:center;">No companies added, click 'Add company' above &#8593;.</p><br>`)
+                            }
+                            for (let i = 0; i < companies.length; i++) {
+                                if (companies[i].companyName !== "Deleted Trackers" && companies[i].companyName !== "Unassigned Trackers") {
+                                    $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
+                                        <ons-list-header class="companyTitle" style="font-size:medium">${escapeHtml(companies[i].companyName)}</ons-list-header>
+                                        <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
+                                            <ons-button onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
+                                                <ons-icon size="20px" icon="fa-user"></ons-icon> Users
+                                            </ons-button>
+                                            <ons-button onclick="getGroupPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-group">
+                                                <ons-icon size="20px" icon="fa-group"></ons-icon> Groups
+                                            </ons-button>
+                                            <ons-button onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
+                                                <ons-icon size="20px" icon="fa-car"></ons-icon> Trackers
+                                            </ons-button>
+                                            <ons-button onclick="showTemplateDialog('editcompany');selectCompany('${escapeHtml(companies[i].companyName)}', '${escapeHtml(companies[i].address)}', '${escapeHtml(companies[i].phoneNumber)}','${escapeHtml(companies[i].address)}')" class="btn-height">
+                                                <ons-icon size="20px" icon="fa-cog"></ons-icon>
+                                                Edit company
+                                            </ons-button>
+                                            <ons-button onclick="showTemplateDialog('deletecompany');selectCompany('${escapeHtml(companies[i].companyName)}', '${escapeHtml(companies[i].address)}', '${escapeHtml(companies[i].phoneNumber)}','${escapeHtml(companies[i].address)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
+                                                <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete
+                                            </ons-button>
+                                        </ons-list-item>
+                                    </div>`)
+                                } else {
+                                    $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
+                                        <ons-list-header class="companyTitle" style="font-size:medium">${escapeHtml(companies[i].companyName)}</ons-list-header>
+                                        <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
+                                            <ons-button onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
+                                                <ons-icon size="20px" icon="fa-car"></ons-icon> Trackers
+                                            </ons-button>
+                                        </ons-list-item>
+                                    </div>`)
+                                }
+                            }
+                        } else {
+                            window.location.href = "../index.html";
+                        }
+
+                    });
+                } else {
+                    ons.notification.toast(data, { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            });
+
+        };
+
+        let groupsG;
+        let usersG = [];
+        let companyG;
+        let filteredSelections = [];
+        let nonFilteredSelections = [];
+
+        const getUserList = (company) => {
+            userList(company, (isSuccess, users) => {
+                if (isSuccess) {
+                    usersG = users;
+                    groupList(company, (isSuccess, groups) => {
+                        if (isSuccess) {
+                            groupsG = groups;
+                            if (users.length === 0) {
+                                $("#userHeader").append(`<br><p style="text-align:center;">No users added, click 'Add user' above &#8593;.</p><br>`)
+                            }
+                            for (let i = 0; i < users.length; i++) {
+                                let groupsHTMLString = "";
+                                if (users[i].groups.length == 0) {
+                                    groupsHTMLString = "No groups assigned."
+                                }
+                                let groupChildren = [];
+
+                                for (let x = 0; x < users[i].groups.length; x++) {
+
+                                    for (let z = 0; z < users[i].groups.length; z++) {
+                                        for (let j = 0; j < groups.length; j++) {
+                                            if (users[i].groups[x] === groups[j].parentGroup && users[i].groups[z] === groups[j].groupName) {
+                                                groupChildren.push(users[i].groups[z]);
+                                            }
+                                        }
+                                    }
+
+
+                                }
+
+                                //remove matching elements
+                                users[i].groups = users[i].groups.filter(val => !groupChildren.includes(val));
+
+                                for (let x = 0; x < users[i].groups.length; x++) {
+                                    if (users[i].groups[x]) {
+                                        if (users[i].groups[x] === "Root") {
+                                            users[i].groups[x] = companyG;
+                                            groupsHTMLString = groupsHTMLString + `<span style="margin-right: 1px;background-color: #00c5ff;padding-right: 16px;padding-left: 16px;height: 29px;padding-top: 4px;" class="notification">${escapeHtml(companyG)}</span>`
+                                        } else {
+                                            groupsHTMLString = groupsHTMLString + `<span style="margin-right: 1px;background-color: #00c5ff;padding-right: 16px;padding-left: 16px;height: 29px;padding-top: 4px;" class="notification">${escapeHtml(users[i].groups[x])}</span>`
+                                        }
+                                    }
+                                }
+
+                                cssIDCounter = cssIDCounter + 1;
+                                let cssID = cssIDCounter + "";
+                                $("#userHeader").append(`<ons-list-item class="userItem" id="${escapeHtml(users[i].email) + "" + escapeHtml(users[i].firstName) + "" + escapeHtml(users[i].lastName)}" expandable>
+                                <div class="center">
+                                    <table style="table-layout: fixed;">
+                                        <tr>
+                                            <td>${escapeHtml(users[i].firstName) + " " + escapeHtml(users[i].lastName)}</td>
+                                            <td>${escapeHtml(users[i].email)}</td>
+                                            <td>
+                                                ${groupsHTMLString}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="expandable-content">
+                                    <!--<p style="display: inline-block;">
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(users[i].firstName)}" id="${escapeHtml(users[i].email)}fname" modifier="underbar" placeholder="First name" float>
+                                        </ons-input>
+                                    </p>
+                                    <p style="display: inline-block;">
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(users[i].lastName)}" id="${escapeHtml(users[i].email)}lname" modifier="underbar" placeholder="Last name" float>
+                                        </ons-input>
+                                    </p>
+                                    <p style="display: inline-block;">
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(users[i].email)}" id="${escapeHtml(users[i].email)}email" modifier="underbar" placeholder="Email" float>
+                                        </ons-input>
+                                    </p>
+                                    <p style="display: inline-block;">
+                                        <ons-input disabled="true" style="opacity:1" id="${escapeHtml(users[i].email)}password" modifier="underbar" type="password"
+                                            placeholder="Password" float></ons-input>
+                                    </p>-->
+                                    <!--<p style="display: inline-block; vertical-align:top;text-decoration:underline !important;">
+                                        <ons-button id="groupSelector${cssID}" style="text-decoration:underline !important;" onclick="showTemplateDialog('editgroup'); loadTree('${escapeHtml(JSON.stringify(users[i]))}');" modifier="quiet">
+                                            Select groups
+                                        </ons-button>
+                                    </p>
+                                    <br>-->
+                                    <ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit user
+                                    </ons-button>
+                                    <ons-button id="groupSelector${cssID}" onclick="showTemplateDialog('editgroup'); loadTree('${escapeHtml(JSON.stringify(users[i]))}');" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit groups
+                                    </ons-button>
+                                    <ons-button onclick="loginAsUserButton('${escapeHtml(users[i].email)}')" class="btn-height">
+                                        <ons-icon size="20px" icon="md-face"></ons-icon> Login as user
+                                    </ons-button>
+                                    <ons-button onclick="showTemplateDialog('deleteuser'); selectUser('${escapeHtml(users[i].email)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete user
+                                    </ons-button>
+                                </div>
+                            </ons-list-item>
+                            <ons-dialog style="display:none;" id="${escapeHtml(users[i].email)}editFormPopup">
+                            <div style="text-align: center; padding: 10px;">
+                                <br>
+                                <b>Edit user</b>
+                                <br>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            First name:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(users[i].firstName)}" id="${escapeHtml(users[i].email)}fnameForm" modifier="underbar" placeholder="First name" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Last name:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(users[i].lastName)}" id="${escapeHtml(users[i].email)}lnameForm" modifier="underbar" placeholder="Last name" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Email:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(users[i].email)}" id="${escapeHtml(users[i].email)}emailForm" modifier="underbar" placeholder="Email" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Password:
+                                        </b>
+                                        <ons-input style="opacity:1" id="${escapeHtml(users[i].email)}passwordForm" modifier="underbar" type="password"
+                                            placeholder="Password" float></ons-input>
+                                    </p>
+                                    <br>
+                                    <ons-button id="${escapeHtml(users[i].email)}edit" onclick="hideDialog('${escapeHtml(users[i].email)}editFormPopup', true);editUserForm('${escapeHtml(users[i].email)}')" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                    </ons-button>
+                                    <ons-button style="background-color:rgb(255, 64, 64);" id="${escapeHtml(users[i].email)}cancel" onclick="hideDialog('${escapeHtml(users[i].email)}editFormPopup', true)" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                    </ons-button>
+                            </div>
+                            </ons-dialog>`)
+                            }
+
+
+                        } else {
+                            window.location.href = "../index.html";
+                        }
+                    })
+                } else {
+                    window.location.href = "../index.html";
+                }
+
+            })
+        }
+
+        const getGroupList = (company) => {
+            let orgChartInitialData = [];
+            groupList(company, (isSuccess, groups) => {
+                if (isSuccess) {
+                    groupsG = groups;
+                    //add root first
+                    orgChartInitialData.push({ id: company, name: company, parent: 0 })
+                    for (let i = 0; i < groups.length; i++) {
+                        if (groups[i].parentGroup === "Root") {
+                            orgChartInitialData.push({ id: groups[i].groupName, parent: company, name: groups[i].groupName })
+                        } else {
+                            orgChartInitialData.push({ id: groups[i].groupName, parent: groups[i].parentGroup, name: groups[i].groupName })
+                        }
+                    }
+                    loadGroupPageTree(orgChartInitialData);
+
+                }
+            })
+        }
+
+        const getTrackerList = (company) => {
+            trackerList(company, (isSuccess, trackers) => {
+                if (trackers.length == 0) {
+                    $("#trackerHeader").append(`<br><p style="text-align:center;">No trackers added, you can move some from the unassigned group.</p><br>`)
+                }
+                groupList(company, (isSuccess, groups) => {
+                    if (isSuccess) {
+                        groupsG = groups;
+                        let groupsHTML = "";
+
+                        $("#trackerGroup").empty();
+                        $("#trackerGroup").append(`<option value="${escapeHtml(company)}">${escapeHtml(company)}</option>`);
+
+                        for (let i = 0; i < groups.length; i++) {
+                            $("#trackerGroup").append(`<option value="${escapeHtml(groups[i].groupName)}">${escapeHtml(groups[i].groupName)}</option>`);
+                        }
+
+                        for (let i = 0; i < trackers.length; i++) {
+                            groupsHTML = "";
+                            if (groups.length === 0) {
+                                groupsHTML = "No groups created.";
+                            }
+                            for (let x = 0; x < groups.length; x++) {
+                                if (groups[x].groupName !== trackers[i].groupName) {
+                                    groupsHTML = groupsHTML + `<option value="${escapeHtml(groups[x].groupName)}">${escapeHtml(groups[x].groupName)}</option>`;
+                                }
+                            }
+
+                            companiesHTML = "";
+                            for (let x = 0; x < companiesG.length; x++) {
+                                if (companiesG[x].companyName !== companyG) {
+                                    companiesHTML = companiesHTML + `<option value="${escapeHtml(companiesG[x].companyName)}">${escapeHtml(companiesG[x].companyName)}</option>`;
+                                }
+                            }
+
+                            if (trackers[i].groupName === "Root") {
+                                trackers[i].groupName = companyG;
+                            } else {
+                                groupsHTML = groupsHTML + `<option value="${escapeHtml(companyG)}">${escapeHtml(companyG)}</option>`;
+                            }
+
+                            $("#trackerHeader").append(`<ons-list-item class="trackerItem" expandable id="${escapeHtml(trackers[i].deviceName) + escapeHtml(trackers[i].deviceImei) + escapeHtml(trackers[i].groupName)}">
+                                <div class="center">
+                                    <table style="table-layout: fixed;">
+                                        <tr>
+                                            <td>${escapeHtml(trackers[i].deviceName)}</td>
+                                            <td>${escapeHtml(trackers[i].deviceImei)}</td>
+                                            <td>
+                                                <span style="margin-right: 1px;background-color: #00c5ff;padding-right: 16px;padding-left: 16px;height: 29px;padding-top: 4px;" class="notification">${escapeHtml(trackers[i].groupName)}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="expandable-content">
+                                    <!--<p style="display: inline-block;">
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].deviceName)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditName" modifier="underbar" placeholder="Name" float>
+                                        </ons-input>
+                                    </p>
+                                    <p style="display: inline-block;">
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].deviceImei)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditImei" modifier="underbar" placeholder="IMEI" float>
+                                        </ons-input>
+                                    </p>
+                                    <p style="display: inline-block;">
+                                        <ons-select modifier="underbar" disabled="true" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditGroup">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].groupName)}">${escapeHtml(trackers[i].groupName)}</option>
+                                            ${groupsHTML}
+                                        </ons-select>
+                                    </p>
+                                    <p style="display: inline-block;">
+                                        <ons-select modifier="underbar" disabled="true" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditCompany">
+                                            <option style="opacity:1" value="${escapeHtml(companyG)}">${escapeHtml(companyG)}</option>
+                                            ${companiesHTML}
+                                        </ons-select>
+                                    </p>
+                                    <br>-->
+                                    <ons-button id="${escapeHtml(trackers[i].deviceName)}enable" onclick="document.getElementById('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice').style.display = 'block'" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit tracker
+                                    </ons-button>
+                                    <ons-button style="display:none;" id="${escapeHtml(trackers[i].deviceName)}edit" onclick="editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                    </ons-button>
+                                    <ons-button id="${escapeHtml(trackers[i].deviceName)}cancel" style="display:none;" onclick="cancelEditTracker('${escapeHtml(trackers[i].deviceName)}')" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                    </ons-button>
+                                    <ons-button onclick="showTemplateDialog('deletetracker');selectTracker('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete tracker
+                                    </ons-button>
+                                </div>
+                            </ons-list-item>
+                            <ons-dialog style="display:none;" id="${escapeHtml(trackers[i].deviceName)}editFormPopupDevice">
+                            <div style="text-align: center; padding: 10px;">
+                                <br>
+                                <b>Edit tracker</b>
+                                <br>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Name:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].deviceName)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditNameForm" modifier="underbar" placeholder="Name" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            IMEI:
+                                        </b>
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].deviceImei)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditImeiForm" modifier="underbar" placeholder="IMEI" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Group:
+                                        </b>
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditGroupForm">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].groupName)}">${escapeHtml(trackers[i].groupName)}</option>
+                                            ${groupsHTML}
+                                        </ons-select>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Company:
+                                        </b>
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditCompanyForm">
+                                            <option style="opacity:1" value="${escapeHtml(companyG)}">${escapeHtml(companyG)}</option>
+                                            ${companiesHTML}
+                                        </ons-select>
+                                    </p>
+                                    <br>
+                                    <ons-button id="${escapeHtml(trackers[i].deviceName)}edit" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                    </ons-button>
+                                    <ons-button style="background-color:rgb(255, 64, 64);" id="${escapeHtml(trackers[i].deviceName)}cancel" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                    </ons-button>
+                            </div>
+                            </ons-dialog>`)
+
+                        }
+                    }
+                })
+
+            })
+        }
+
+        getCompanyList();
+
+        let selectedCompany = {};
+
+        let selectCompany = (companyName, address, phoneNumber) => {
+            document.getElementById("companyNameEdit").value = companyName;
+            document.getElementById("companyAddressEdit").value = address;
+            document.getElementById("companyPhoneEdit").value = phoneNumber;
+            selectedCompany.companyName = companyName;
+            selectedCompany.address = address;
+            selectedCompany.phoneNumber = phoneNumber;
+        }
+
+        let selectedUser = undefined;
+
+        let selectUser = (userEmail) => {
+            selectedUser = userEmail;
+        }
+
+        let selectedTracker = {};
+
+        let selectTracker = (deviceName, deviceImei) => {
+            selectedTracker.deviceName = deviceName;
+            selectedTracker.deviceImei = deviceImei;
+        }
+
+
+        let enableEditUser = (userEmail) => {
+            document.getElementById(userEmail + "enable").style.display = "none";
+            document.getElementById(userEmail + "edit").style.display = "inline-block";
+            document.getElementById(userEmail + "cancel").style.display = "inline-block";
+            document.getElementById(userEmail + "email").disabled = false;
+            document.getElementById(userEmail + "fname").disabled = false;
+            document.getElementById(userEmail + "lname").disabled = false;
+            document.getElementById(userEmail + "password").disabled = false;
+        }
+
+        let cancelEditUser = (userEmail) => {
+            document.getElementById(userEmail + "enable").style.display = "inline-block";
+            document.getElementById(userEmail + "edit").style.display = "none";
+            document.getElementById(userEmail + "cancel").style.display = "none";
+            document.getElementById(userEmail + "email").disabled = true;
+            document.getElementById(userEmail + "fname").disabled = true;
+            document.getElementById(userEmail + "lname").disabled = true;
+            document.getElementById(userEmail + "password").disabled = true;
+            document.getElementById(userEmail + "email").style.opacity = "1";
+            document.getElementById(userEmail + "fname").style.opacity = "1";
+            document.getElementById(userEmail + "lname").style.opacity = "1";
+            document.getElementById(userEmail + "password").style.opacity = "1";
+        }
+
+        let enableEditTracker = (deviceName) => {
+            document.getElementById(deviceName + "enable").style.display = "none";
+            document.getElementById(deviceName + "edit").style.display = "inline-block";
+            document.getElementById(deviceName + "cancel").style.display = "inline-block";
+            document.getElementById(deviceName + "trackerEditName").disabled = false;
+            //document.getElementById(deviceName + "trackerEditImei").disabled = false;
+            document.getElementById(deviceName + "trackerEditGroup").disabled = false;
+            document.getElementById(deviceName + "trackerEditCompany").disabled = false;
+        }
+
+        let cancelEditTracker = (deviceName) => {
+            document.getElementById(deviceName + "enable").style.display = "inline-block";
+            document.getElementById(deviceName + "edit").style.display = "none";
+            document.getElementById(deviceName + "cancel").style.display = "none";
+            document.getElementById(deviceName + "trackerEditName").disabled = true;
+            document.getElementById(deviceName + "trackerEditImei").disabled = true;
+            document.getElementById(deviceName + "trackerEditGroup").disabled = true;
+            document.getElementById(deviceName + "trackerEditCompany").disabled = true;
+            document.getElementById(deviceName + "trackerEditName").style.opacity = "1";
+            document.getElementById(deviceName + "trackerEditImei").style.opacity = "1";
+            document.getElementById(deviceName + "trackerEditGroup").style.opacity = "1";
+            document.getElementById(deviceName + "trackerEditCompany").style.opacity = "1";
+        }
+
+        let editUserForm = (userEmail) => {
+            let email = document.getElementById(userEmail + "emailForm").value;
+            let fname = document.getElementById(userEmail + "fnameForm").value;
+            let lname = document.getElementById(userEmail + "lnameForm").value;
+            let password = document.getElementById(userEmail + "passwordForm").value;
+
+            let updatedUser = { companyName: companyG, email: userEmail, updatedEmail: email, updatedLastName: lname, updatedFirstName: fname }
+
+            password.length !== 0 && (updatedUser.updatedPassword = password);
+
+            editUser(updatedUser, (isSuccess, msg) => {
+                if (isSuccess) {
+                    $("#userHeader").empty();
+                    $("#userHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Groups</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                    ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                    getUserList(companyG);
+                } else {
+                    ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            })
+        }
+
+        let editTrackerForm = (deviceName, deviceImei) => {
+            let trackerEditName = document.getElementById(deviceName + "trackerEditNameForm").value;
+            let trackerEditImei = document.getElementById(deviceName + "trackerEditImeiForm").value;
+            let trackerEditGroup = document.getElementById(deviceName + "trackerEditGroupForm").value;
+            let trackerEditCompany = document.getElementById(deviceName + "trackerEditCompanyForm").value;
+            let setRoot = undefined;
+
+            if (trackerEditGroup === companyG) {
+                setRoot = "Root";
+            }
+
+            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup }
+
+            editTracker(updatedTracker, (isSuccess, msg) => {
+                if (isSuccess) {
+                    if (trackerEditCompany !== companyG) {
+                        moveDeviceToDiffCompany(updatedTracker, (isSuccess, msg) => {
+                            $("#trackerHeader").empty();
+                            $("#trackerHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Tracker Name</th>
+                                                <th>IMEI</th>
+                                                <th>Group</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                            getTrackerList(companyG);
+                            ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                        })
+                    } else {
+                        $("#trackerHeader").empty();
+                        $("#trackerHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Tracker Name</th>
+                                                <th>IMEI</th>
+                                                <th>Group</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                        getTrackerList(companyG);
+                    }
+                } else {
+                    ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            })
+        }
+
+        let isArrayEqual = function (x, y) {
+            return _(x).xorWith(y, _.isEqual).isEmpty();
+        };
+
+        let treeToggle = false;
+        let userG;
+
+        function loadTree(user) {
+            user = JSON.parse(user);
+            userG = user;
+            let initialData = [{ 'id': 'Root', 'parent': '#', 'text': companyG, state: { opened: true } }];
+            //CREATING GROUPS DYNAMICALLY AS OPTIONS
+            for (let i = 0; i < groupsG.length; i++) {
+                initialData.push({ id: groupsG[i].groupName, parent: groupsG[i].parentGroup, text: groupsG[i].groupName, state: { selected: false } });
+            }
+
+            //ALREADY PICKED GROUPS THAT THE USER IS IN
+            for (let x = 0; x < user.groups.length; x++) {
+                for (let i = 0; i < initialData.length; i++) {
+                    if (user.groups[x] === initialData[i].text) {
+                        initialData[i].state = { selected: true, opened: true };
+                    }
+                }
+            }
+
+            if (treeToggle) {
+                $('#jstree').jstree(true).settings.core.data = initialData;
+                $('#jstree').jstree(true).refresh(false, true);
+            } else {
+                treeToggle = true;
+            }
+
+            $('#jstree').jstree({
+                'plugins': ['search', 'checkbox', 'wholerow'],
+                'core': {
+                    'data': initialData,
+                    'animation': false,
+                    //'expand_selected_onload': true,
+                    'themes': {
+                        'icons': false,
+                    },
+                    'check_callback': true
+                },
+                'search': {
+                    'show_only_matches': true,
+                    'show_only_matches_children': true
+                }
+            })
+
+
+
+            $('#search').on("keyup change", function () {
+                $('#jstree').jstree(true).search($(this).val())
+            })
+
+            $('#clear').click(function (e) {
+                $('#search').val('').change().focus()
+            })
+
+            $('#jstree').on('changed.jstree', function (e, data) {
+                filteredSelections = [];
+                nonFilteredSelections = data.instance.get_selected(true)
+                for (let i = 0; i < nonFilteredSelections.length; i++) {
+                    filteredSelections.push(nonFilteredSelections[i].text);
+                }
+
+            })
+        }
+
+        let chartNodesAtStart;
+        let chart;
+
+        let org_chart = undefined;
+        let initialGroupData = [];
+        function loadGroupPageTree(orgChartInitialData) {
+            org_chart = $('#orgChart').orgChart({
+                data: orgChartInitialData,
+                showControls: true,
+                allowEdit: true,
+                onAddNode: function (node) {
+                    parentsSaved.push(node);
+                    org_chart.newNode(node.data.id);
+                },
+                onDeleteNode: function (node) {
+                    org_chart.deleteNode(node.data.id);
+                }
+            });
+            initialGroupData = org_chart.getData();
+        }
+
+        function eventFire(el, etype) {
+            if (el.fireEvent) {
+                el.fireEvent('on' + etype);
+            } else {
+                var evObj = document.createEvent('Events');
+                evObj.initEvent(etype, true, false);
+                el.dispatchEvent(evObj);
+            }
+        }
+
+        let parentsSaved = [];
+
+        function save() {
+            let toSave = [];
+            for (let i = 0; i < org_chart.getData().length; i++) {
+                if (org_chart.getData()[i].parent === companyG) {
+                    toSave.push({ parentGroup: "Root", groupName: org_chart.getData()[i].name })
+                } else if (org_chart.getData()[i].parent !== 0 && typeof org_chart.getData()[i].parent === 'string') {
+                    toSave.push({ parentGroup: org_chart.getData()[i].parent, groupName: org_chart.getData()[i].name })
+                } else if (org_chart.getData()[i].parent !== 0) {
+                    for (let x = 0; x < parentsSaved.length; x++) {
+                        if (parentsSaved[x].data.id === org_chart.getData()[i].parent) {
+                            toSave.push({ parentGroup: parentsSaved[x].data.name, groupName: org_chart.getData()[i].name });
+                            break;
+                        }
+                    }
+                }
+            }
+
+            setNewGroups(toSave, companyG, (isSuccess, msg) => {
+                if (isSuccess) {
+                    document.getElementById("bkBut").click()
+                    ons.notification.toast(msg, { timeout: 1000, animation: 'fall' });
+                } else {
+                    ons.notification.toast("NOT SAVED! " + msg, { timeout: 5000, animation: 'fall' });
+                }
+            });
+        }
+
+        let popWarningAfterChange = () => {
+            if (!arraysEqual(initialGroupData, org_chart.getData())) {
+                showTemplateDialog("leaveAfterSave");
+            } else {
+                document.getElementById("bkBut").click()
+            }
+        }
+
+        function arraysEqual(a, b) {
+            if (a === b) return true;
+            if (a == null || b == null) return false;
+            if (a.length !== b.length) return false;
+
+            // If you don't care about the order of the elements inside
+            // the array, you should sort both arrays here.
+            // Please note that calling sort on an array will modify that array.
+            // you might want to clone your array first.
+
+            for (var i = 0; i < a.length; ++i) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
+        }
+
+        let showTemplateDialog = (elementId) => {
+            let dialog = document.getElementById(elementId);
+            dialog.style.marginTop = "-100px";
+            if (dialog) {
+                dialog.show();
+            } else {
+                ons.createElement(elementId + '.html', { append: true })
+                    .then(function (dialog) {
+                        dialog.show();
+                    });
+            }
+        };
+
+        let hideDialog = function (id, confirm) {
+
+            if (id === "deletetracker" && confirm) {
+                selectedTracker.companyName = companyG;
+                deleteTracker(selectedTracker, (isSuccess, msg) => {
+                    if (isSuccess) {
+                        $("#trackerHeader").empty();
+                        $("#trackerHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Tracker Name</th>
+                                                <th>IMEI</th>
+                                                <th>Group</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                        ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                        getTrackerList(companyG);
+                    } else {
+                        ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                        return;
+                    }
+                })
+            } else if (id === "addtracker" && confirm) {
+                let name = document.getElementById("trackerName");
+                let imei = document.getElementById("trackerImei");
+                let group = document.getElementById("trackerGroup");
+                let setRoot = undefined;
+
+                if (name.value.length > 0 && imei.value.length > 0 && group.value.length > 0) {
+                    if (group.value === companyG) {
+                        setRoot = "Root";
+                    }
+
+                    addTracker(companyG, setRoot || group.value, imei.value, name.value, (isSuccess, msg) => {
+                        if (isSuccess) {
+                            $("#trackerHeader").empty();
+                            $("#trackerHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Tracker Name</th>
+                                                <th>IMEI</th>
+                                                <th>Group</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                            ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                            getTrackerList(companyG);
+                            name.value = "";
+                            imei.value = "";
+                            group.value = "";
+                        } else {
+                            ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                            return;
+                        }
+                    })
+                } else {
+                    ons.notification.toast("Can't leave fields empty.", { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            } else if (id === "deleteuser" && confirm) {
+                deleteUser(selectedUser, companyG, (isSuccess, msg) => {
+                    if (isSuccess) {
+                        $("#userHeader").empty();
+                        $("#userHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Groups</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                        ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                        getUserList(companyG);
+                    } else {
+                        ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                        return;
+                    }
+                })
+            } else if (id === "adduser" && confirm) {
+                let fname = document.getElementById("fname");
+                let lname = document.getElementById("lname");
+                let userEmail = document.getElementById("userEmail");
+                let userPassword = document.getElementById("userPassword");
+
+                if (fname.value.length > 0 && lname.value.length > 0 && userEmail.value.length > 0 && userPassword.value.length > 0) {
+                    addUser(fname.value, lname.value, userEmail.value, userPassword.value, companyG, (isSuccess, msg) => {
+                        if (isSuccess) {
+                            $("#userHeader").empty();
+                            $("#userHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Groups</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                            ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                            getUserList(companyG);
+                            fname.value = "";
+                            lname.value = "";
+                            userEmail.value = "";
+                            userPassword.value = "";
+                        } else {
+                            ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                            return;
+                        }
+                    })
+                } else {
+                    ons.notification.toast("Can't leave fields empty.", { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            } else if (id === "deletecompany" && confirm) {
+                deleteCompany(selectedCompany.companyName, selectedCompany.address, selectedCompany.phoneNumber, (isSuccess, msg) => {
+                    if (isSuccess) {
+                        $(".row").empty();
+                        ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                        getCompanyList();
+                        companyNameAdd.value = "";
+                        companyAddressAdd.value = "";
+                        companyPhoneAdd.value = "";
+                    } else {
+                        ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                        return;
+                    }
+                })
+            } else if (id === "addcompany" && confirm) {
+                let companyNameAdd = document.getElementById("companyNameAdd");
+                let companyAddressAdd = document.getElementById("companyAddressAdd");
+                let companyPhoneAdd = document.getElementById("companyPhoneAdd");
+
+                if (companyNameAdd.value.length > 0 && companyAddressAdd.value.length > 0 && companyPhoneAdd.value.length > 0) {
+                    addCompany(companyNameAdd.value, companyAddressAdd.value, companyPhoneAdd.value, (isSuccess, msg) => {
+                        if (isSuccess) {
+                            $(".row").empty();
+                            ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                            getCompanyList();
+                            companyNameAdd.value = "";
+                            companyAddressAdd.value = "";
+                            companyPhoneAdd.value = "";
+                        } else {
+                            ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                            return;
+                        }
+                    })
+                } else {
+                    ons.notification.toast("Can't leave fields empty.", { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            } else if (id === "editcompany" && confirm) {
+                let companyNameEdit = document.getElementById("companyNameEdit").value;
+                let companyAddressEdit = document.getElementById("companyAddressEdit").value;
+                let companyPhoneEdit = document.getElementById("companyPhoneEdit").value;
+
+                if (companyNameEdit.length > 0 && companyAddressEdit.length > 0 && companyPhoneEdit.length > 0) {
+                    editCompany(selectedCompany.companyName, selectedCompany.address, selectedCompany.phoneNumber, companyNameEdit, companyAddressEdit, companyPhoneEdit, (isSuccess, msg) => {
+                        if (isSuccess) {
+                            $(".row").empty();
+                            ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
+                            getCompanyList();
+                        } else {
+                            ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                            return;
+                        }
+                    })
+                } else {
+                    ons.notification.toast("Can't leave fields empty.", { timeout: 5000, animation: 'fall' })
+                    return;
+                }
+            } else if (id === "editgroup" && confirm) {
+                setUserGroups(filteredSelections, userG.email, companyG, (isSuccess, msg) => {
+                    if (isSuccess) {
+                        getUserList(companyG);
+                        $("#userHeader").empty();
+                        $("#userHeader").append(`<ons-list-item expandable>
+                                    <div class="center">
+                                        <table style="table-layout: fixed;">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Groups</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </ons-list-item>`);
+                        ons.notification.toast("Saved.", { timeout: 1000, animation: 'fall' })
+                    } else {
+                        ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                    }
+                })
+
+            } else if (id === "leaveAfterSave" && !confirm) {
+                document.getElementById("bkBut").click()
+            } else if (id === "leaveAfterSave" && confirm) {
+                save();
+            }
+
+            document.getElementById(id).hide();
+        };
+
+        function getUserPage(company, installerEmail) {
+            companyG = company;
+            document.querySelector('#myNavigator').pushPage('users.html');
+            getUserList(company);
+        }
+
+        function getGroupPage(company, installerEmail) {
+            companyG = company;
+            document.querySelector('#myNavigator').pushPage('groups.html');
+            getGroupList(company);
+        }
+
+        function getTrackerPage(company, installerEmail) {
+            companyG = company;
+            document.querySelector('#myNavigator').pushPage('trackers.html');
+            getTrackerList(company);
+        }
+
+        document.addEventListener('init', function (event) {
+            let page = event.target;
+
+            if (page.id === 'page1') {
+
+            } else if (page.id === 'users') {
+                treeToggle = false; // prevents bug when user opens tree, goes back and opens tree again
+            } else if (page.id == 'groups') {
+                //document.getElementById("").addEventListener()
+                document.getElementById("bkBut").addEventListener("click", () => {
+                    $("#tree").remove();
+                })
+            } else if (page.id == 'trackers') {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
