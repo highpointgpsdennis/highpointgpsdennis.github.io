@@ -1,4 +1,4 @@
-const baseURL = "http://159.89.127.35:9629";
+const baseURL = "https://trackerserver.webredirect.org";
 
 async function login(loginInfo, cb) {
     const response = await fetch(baseURL + "/sharedlogin", {
