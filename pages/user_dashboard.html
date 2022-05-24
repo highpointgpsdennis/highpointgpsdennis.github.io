@@ -915,7 +915,7 @@
             $("#tripDeviceTitle").hide(animationTime);
         }
 
-        function onLocationFound(e) {
+        /*function onLocationFound(e) {
             //let radius = e.accuracy;
 
             L.marker(e.latlng).addTo(map)
@@ -925,7 +925,7 @@
                 }).openPopup();
 
             //L.circle(e.latlng, radius).addTo(map);
-        }
+        }*/
 
         function formatAMPM(date) {
             var hours = date.getHours();
@@ -938,7 +938,7 @@
             return strTime;
         }
 
-        map.on('locationfound', onLocationFound);
+        //map.on('locationfound', onLocationFound);
 
         //loading trackers and markers
 
