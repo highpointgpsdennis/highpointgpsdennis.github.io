@@ -153,19 +153,7 @@
                                 <div class="name"></div>
                             </div>
                         </div>
-                        <menuitem-control>
-                            <div onclick="logoutUser()" class="elem_cnt">
-                                <div id="menu_item_logout" title="Log Out" class="item_cnt logout">
-                                    <div class="icon">
-                                        <a><i class="fa-solid fa-power-off"></i></a>
-                                    </div>
-                                    <div class="name">
-                                        <span>Log Out</span>
-                                        <div class="additional_name"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </menuitem-control>
+
                     </div>
                 </div>
             </aside>
@@ -195,9 +183,17 @@
                                             </div>
                                         </div>
                                         <div class="def_cnt align_center j_c_fe">
+
                                             <span style="margin-right:3px;">Support: </span>
                                             <span id="upRightTrackerCounter" style="color: green;font-weight: 800;">0
-                                                trackers.</span>
+                                                trackers.
+                                            </span>
+                                            <a style="margin-left:8px;border-radius: 2px;padding:4px;color:white;background-color: #5FC6D9;cursor: pointer;"
+                                                onclick="logoutUser()"><i class="fa-solid fa-power-off"></i>
+                                                <span><b>Log
+                                                    Out</b></span>
+                                            </a>
+
                                         </div>
                                     </div>
                                     <div class="search-cnt">
@@ -1011,7 +1007,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <p style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'none' : 'block')};">Verify the IMEI is correct, the GPS is turned on / configured properly and refresh this page after a few minutes.</p>
-                                                                <div style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'block' : 'none')};width: fit-content; margin-bottom:5px;color: black;padding-top: 7px;padding-left: 7px;padding-right: 7px;padding-bottom: 7px;background: transparent !important;" class="item-id inside_text yellow">
+                                                                <div style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'block' : 'none')};width: fit-content; margin-bottom:5px;color: black;padding-top: 7px;padding-left: 7px;padding-right: 7px;padding-bottom: 7px;background: transparent !important;font-size:13px;" class="item-id inside_text yellow">
                                                                     <div>
                                                                         <span class="display"><i class="fa-solid fa-location-dot"></i> ${displayAddress}</span>
                                                                     </div>
