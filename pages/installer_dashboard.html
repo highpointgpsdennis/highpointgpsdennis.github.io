@@ -669,11 +669,12 @@
                 if (isSuccess) {
                     installerG = data.installerName;
                     logoG = data.img;
+                    console.log(data);
                     //document.getElementById("uploadedIMG").src = data.img;
-                    $(".row").append(`<div class="companyItem" id="${escapeHtml(data.installerName)}" class="companyAlign column">
-                                        <ons-list-header class="companyTitle" style="font-size:medium">
+                    $(".row").append(`<div style="background-color:#EEEEEE" class="companyItem" id="${escapeHtml(data.installerName)}" class="companyAlign column">
+                                        <ons-list-header class="companyTitle" style="font-size:medium;margin: auto;width: fit-content;margin-top: -0.52px !important;">
                                         <img id="${escapeHtml(data.installerName)}" class="companyItem" src="${escapeHtml(data.img)}" style="margin-top: 5px;margin-bottom: 5px;display:inline-block;width: 150px; height: 83px;margin-right:5px;vertical-align: middle;">
-                                        <h1 style="display:inline-block">${escapeHtml(data.installerName)} 
+                                        <h1 style="display:inline-block">${escapeHtml(data.installerCompany)} 
                                         <ons-button style="margin-left:30px;" onclick="editInstallerInfo('${escapeHtml(data.installerName)}','${escapeHtml(data.installerCompany)}')">Edit installer info</ons-button>
                                         </h1>
                                         <ons-button style="width: fit-content;display: inline-block;" onclick="showTemplateDialog('addcompany')"
@@ -692,31 +693,31 @@
                             for (let i = 0; i < companies.length; i++) {
                                 if (companies[i].companyName !== "Deleted Trackers" && companies[i].companyName !== "Unassigned Trackers") {
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
-                                        <ons-list-header class="companyTitle" style="font-size:medium">${escapeHtml(companies[i].companyName)}</ons-list-header>
+                                        <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
                                         <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
-                                            <ons-button onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
+                                            <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
                                                 <ons-icon size="20px" icon="fa-user"></ons-icon> Users
                                             </ons-button>
-                                            <ons-button onclick="getGroupPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-group">
+                                            <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getGroupPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-group">
                                                 <ons-icon size="20px" icon="fa-group"></ons-icon> Groups
                                             </ons-button>
-                                            <ons-button onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
+                                            <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
                                                 <ons-icon size="20px" icon="fa-car"></ons-icon> Trackers
                                             </ons-button>
-                                            <ons-button onclick="showTemplateDialog('editcompany');selectCompany('${escapeHtml(companies[i].companyName)}', '${escapeHtml(companies[i].address)}', '${escapeHtml(companies[i].phoneNumber)}','${escapeHtml(companies[i].address)}')" class="btn-height">
+                                            <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="showTemplateDialog('editcompany');selectCompany('${escapeHtml(companies[i].companyName)}', '${escapeHtml(companies[i].address)}', '${escapeHtml(companies[i].phoneNumber)}','${escapeHtml(companies[i].address)}')" class="btn-height">
                                                 <ons-icon size="20px" icon="fa-cog"></ons-icon>
                                                 Edit company
                                             </ons-button>
-                                            <ons-button onclick="showTemplateDialog('deletecompany');selectCompany('${escapeHtml(companies[i].companyName)}', '${escapeHtml(companies[i].address)}', '${escapeHtml(companies[i].phoneNumber)}','${escapeHtml(companies[i].address)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
+                                            <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;background-color:rgb(255, 64, 64);" onclick="showTemplateDialog('deletecompany');selectCompany('${escapeHtml(companies[i].companyName)}', '${escapeHtml(companies[i].address)}', '${escapeHtml(companies[i].phoneNumber)}','${escapeHtml(companies[i].address)}')" class="btn-height">
                                                 <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete
                                             </ons-button>
                                         </ons-list-item>
                                     </div>`)
                                 } else {
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
-                                        <ons-list-header class="companyTitle" style="font-size:medium">${escapeHtml(companies[i].companyName)}</ons-list-header>
+                                        <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
                                         <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
-                                            <ons-button onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
+                                            <ons-button style="margin:auto;width: 147.73px;text-align: center;" onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
                                                 <ons-icon size="20px" icon="fa-car"></ons-icon> Trackers
                                             </ons-button>
                                         </ons-list-item>
