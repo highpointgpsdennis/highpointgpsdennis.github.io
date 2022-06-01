@@ -20,7 +20,7 @@
 
 <style>
     .org-add-button {
-        bottom: 70%;
+        bottom: 0px;
         left: -62px;
         border-radius: 4px;
         /* padding-left: 13px; */
@@ -29,7 +29,7 @@
         /* background: url(../images/add.png) no-repeat 0 3px; */
     }
 
-    .search-input{
+    .search-input {
         height: 4vh;
     }
 </style>
@@ -244,9 +244,8 @@
                         </ons-row>
                     </div>-->
 
-                    <ons-search-input id="searchCompany" autocomplete="off"
-                        style="width:100%;margin-top:50px;" placeholder="Search"
-                        onkeyup="triggerCompanySearchListener()"></ons-search-input>
+                    <ons-search-input id="searchCompany" autocomplete="off" style="width:100%;margin-top:50px;"
+                        placeholder="Search" onkeyup="triggerCompanySearchListener()"></ons-search-input>
 
                     <div style="height: 83%;
                     overflow-y: scroll !important;
@@ -336,8 +335,7 @@
                                 <b>Edit groups</b>
                                 <div style="text-align: left;">
                                     <ons-search-input autocomplete="off" id="search"
-                                        style="width:100%;margin-top:5px;margin-bottom:5px;"
-                                        placeholder="Search">
+                                        style="width:100%;margin-top:5px;margin-bottom:5px;" placeholder="Search">
                                     </ons-search-input>
                                     <div id="jstree">
                                     </div>
@@ -688,17 +686,18 @@
                     logoG = data.img;
                     console.log(data);
                     //document.getElementById("uploadedIMG").src = data.img;
-                    $(".row").append(`<div style="background-color:#EEEEEE" class="companyItem" id="${escapeHtml(data.installerName)}" class="companyAlign column">
+                    // <ons-button style="width: fit-content;margin-left:-10px" onclick="showTemplateDialog('addcompany')"
+                    //                         modifier="large--quiet">
+                    //                         <ons-icon icon="md-plus"></ons-icon>
+                    //                         Add company
+                    //                     </ons-button>
+                    $(".row").append(`<div style="background-color:#EEEEEE;padding-bottom:20px;" class="companyItem" id="${escapeHtml(data.installerName)}" class="companyAlign column">
                                         <ons-list-header class="companyTitle" style="font-size:medium;margin: auto; margin-top: -0.52px !important;">
                                         <img id="${escapeHtml(data.installerName)}" class="companyItem" src="${escapeHtml(data.img)}" style="margin-top: 5px;margin-bottom: 5px;display:inline-block;width: 150px; height: 83px;margin-right:5px;vertical-align: middle;">
                                         <h1 style="margin:auto;display:block;text-align:center;margin-top:-56px;">${escapeHtml(data.installerCompany)} 
                                         <ons-button style="margin-left:30px;" onclick="editInstallerInfo('${escapeHtml(data.installerName)}','${escapeHtml(data.installerCompany)}')">Edit installer info</ons-button>
                                         </h1>
-                                        <ons-button style="width: fit-content;margin-left:-10px" onclick="showTemplateDialog('addcompany')"
-                                            modifier="large--quiet">
-                                            <ons-icon icon="md-plus"></ons-icon>
-                                            Add company
-                                        </ons-button>
+                                        
                                         </ons-list-header>
                                     </div>`);
                     companyList((isSuccess, companies) => {
@@ -710,8 +709,8 @@
                             for (let i = 0; i < companies.length; i++) {
                                 if (companies[i].companyName !== "Deleted Trackers" && companies[i].companyName !== "Unassigned Trackers") {
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
-                                        <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
-                                        <ons-list-item style="margin-bottom: 5px;margin:auto;width:59%;" modifier="longdivider">
+                                        <h1 class="companyTitle" style="font-size:medium;display: block;margin-top: 21px !important;margin-left: 15px;background-color:#ccc;width:fit-content;padding:2px;border-radius:2px;color:black;text-transform: uppercase;">${escapeHtml(companies[i].companyName)}</h1>
+                                        <ons-list-item style="margin-bottom: 5px;margin:auto;width:45%;margin-top: -54px;" modifier="longdivider">
                                             <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
                                                 <ons-icon size="20px" icon="fa-user"></ons-icon> Users
                                             </ons-button>
@@ -730,6 +729,9 @@
                                             </ons-button>
                                         </ons-list-item>
                                     </div>`)
+                                    if (companies.length - 1 !== i) {
+                                        $(".row").append(`<hr>`);
+                                    }
                                 } else {
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
                                         <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
@@ -739,6 +741,14 @@
                                             </ons-button>
                                         </ons-list-item>
                                     </div>`)
+
+                                    if (companies[i].companyName === "Unassigned Trackers") {
+                                        $(".row").append(`<ons-list-header class="companyTitle" style="font-size:medium;text-align:center;"><ons-button style="width: fit-content;margin:auto;" onclick="showTemplateDialog('addcompany')"
+                                            modifier="large--quiet">
+                                            <ons-icon icon="md-plus"></ons-icon>
+                                            Add company
+                                        </ons-button></ons-list-header>`)
+                                    }
                                 }
                             }
                         } else {
