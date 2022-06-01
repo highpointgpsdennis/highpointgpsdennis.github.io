@@ -241,13 +241,13 @@
                     </div>-->
 
                     <ons-search-input id="searchCompany" autocomplete="off"
-                        style="width:100%;margin-bottom:5px;margin-top:50px;" placeholder="Search"
+                        style="width:100%;margin-bottom:5px;margin-top:50px;height:4vh;" placeholder="Search"
                         onkeyup="triggerCompanySearchListener()"></ons-search-input>
 
                     <div style="height: 83%;
                     overflow-y: scroll !important;
                     margin-top: 5px;">
-                        <ons-list-header>Select company</ons-list-header>
+                        <!-- <ons-list-header>Select company</ons-list-header> -->
                         <ons-list-item>
                             <ons-list style="width:100%;" modifier="inset">
 
@@ -275,7 +275,7 @@
                             </ons-button>
 
                             <ons-search-input id="searchUser" autocomplete="off"
-                                style="width:100%;margin-top:5px;margin-bottom:5px;"
+                                style="width:100%;margin-top:5px;margin-bottom:5px;height:4vh;"
                                 onkeyup="triggerUserSearchListener()" placeholder="Search">
                             </ons-search-input>
                         </div>
@@ -332,7 +332,8 @@
                                 <b>Edit groups</b>
                                 <div style="text-align: left;">
                                     <ons-search-input autocomplete="off" id="search"
-                                        style="width:100%;margin-top:5px;margin-bottom:5px;" placeholder="Search">
+                                        style="width:100%;margin-top:5px;margin-bottom:5px;height:4vh;"
+                                        placeholder="Search">
                                     </ons-search-input>
                                     <div id="jstree">
                                     </div>
@@ -400,7 +401,7 @@
                             </ons-button>-->
                             <ons-search-input id="searchTracker" autocomplete="off"
                                 onkeyup="triggerTrackerSearchListener()"
-                                style="width:100%;margin-top: 50px;margin-bottom:5px;" placeholder="Search">
+                                style="width:100%;margin-top: 50px;margin-bottom:5px;height:4vh;" placeholder="Search">
                             </ons-search-input>
                         </div>
 
@@ -706,7 +707,7 @@
                                 if (companies[i].companyName !== "Deleted Trackers" && companies[i].companyName !== "Unassigned Trackers") {
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
                                         <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
-                                        <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
+                                        <ons-list-item style="margin-bottom: 5px;margin:auto;width:59%;" modifier="longdivider">
                                             <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
                                                 <ons-icon size="20px" icon="fa-user"></ons-icon> Users
                                             </ons-button>
