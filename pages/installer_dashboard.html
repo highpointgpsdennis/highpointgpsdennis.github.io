@@ -28,6 +28,10 @@
         border-left: 1px solid #e7e7e7;
         /* background: url(../images/add.png) no-repeat 0 3px; */
     }
+
+    .search-input{
+        height: 4vh;
+    }
 </style>
 
 <body style="overflow:hidden; height:102vh">
@@ -241,7 +245,7 @@
                     </div>-->
 
                     <ons-search-input id="searchCompany" autocomplete="off"
-                        style="width:100%;margin-bottom:5px;margin-top:50px;height:4vh;" placeholder="Search"
+                        style="width:100%;margin-top:50px;" placeholder="Search"
                         onkeyup="triggerCompanySearchListener()"></ons-search-input>
 
                     <div style="height: 83%;
@@ -275,7 +279,7 @@
                             </ons-button>
 
                             <ons-search-input id="searchUser" autocomplete="off"
-                                style="width:100%;margin-top:5px;margin-bottom:5px;height:4vh;"
+                                style="width:100%;margin-top:5px;margin-bottom:5px;"
                                 onkeyup="triggerUserSearchListener()" placeholder="Search">
                             </ons-search-input>
                         </div>
@@ -332,7 +336,7 @@
                                 <b>Edit groups</b>
                                 <div style="text-align: left;">
                                     <ons-search-input autocomplete="off" id="search"
-                                        style="width:100%;margin-top:5px;margin-bottom:5px;height:4vh;"
+                                        style="width:100%;margin-top:5px;margin-bottom:5px;"
                                         placeholder="Search">
                                     </ons-search-input>
                                     <div id="jstree">
@@ -401,7 +405,7 @@
                             </ons-button>-->
                             <ons-search-input id="searchTracker" autocomplete="off"
                                 onkeyup="triggerTrackerSearchListener()"
-                                style="width:100%;margin-top: 50px;margin-bottom:5px;height:4vh;" placeholder="Search">
+                                style="width:100%;margin-top: 50px;margin-bottom:5px;" placeholder="Search">
                             </ons-search-input>
                         </div>
 
@@ -685,15 +689,15 @@
                     console.log(data);
                     //document.getElementById("uploadedIMG").src = data.img;
                     $(".row").append(`<div style="background-color:#EEEEEE" class="companyItem" id="${escapeHtml(data.installerName)}" class="companyAlign column">
-                                        <ons-list-header class="companyTitle" style="font-size:medium;margin: auto;width: fit-content;margin-top: -0.52px !important;">
+                                        <ons-list-header class="companyTitle" style="font-size:medium;margin: auto; margin-top: -0.52px !important;">
                                         <img id="${escapeHtml(data.installerName)}" class="companyItem" src="${escapeHtml(data.img)}" style="margin-top: 5px;margin-bottom: 5px;display:inline-block;width: 150px; height: 83px;margin-right:5px;vertical-align: middle;">
-                                        <h1 style="display:inline-block">${escapeHtml(data.installerCompany)} 
+                                        <h1 style="margin:auto;display:block;text-align:center;margin-top:-56px;">${escapeHtml(data.installerCompany)} 
                                         <ons-button style="margin-left:30px;" onclick="editInstallerInfo('${escapeHtml(data.installerName)}','${escapeHtml(data.installerCompany)}')">Edit installer info</ons-button>
                                         </h1>
-                                        <ons-button style="width: fit-content;display: inline-block;" onclick="showTemplateDialog('addcompany')"
+                                        <ons-button style="width: fit-content;margin-left:-10px" onclick="showTemplateDialog('addcompany')"
                                             modifier="large--quiet">
                                             <ons-icon icon="md-plus"></ons-icon>
-                                            New company
+                                            Add company
                                         </ons-button>
                                         </ons-list-header>
                                     </div>`);
