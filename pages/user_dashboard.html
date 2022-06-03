@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="font-size:medium; margin-top:30px;" class="menu_cnt w3-sans-serif">
+                <div style="font-size:medium; margin-top:30px;overflow:hidden;" class="menu_cnt w3-sans-serif">
                     <div class="main_group_cnt workareas">
                         <div class="main_elem_cnt">
                             <div class="name">WORKSPACES</div>
@@ -432,7 +432,7 @@
                             </div>
                             <hr />
                             <button onclick="modifyUser()"
-                                class="w3-button w3-block w3-section w3-white w3-ripple w3-padding">Save edit</button>
+                                class="w3-button w3-block w3-section w3-white w3-ripple w3-padding">Save</button>
 
                         </div>
                     </header>
@@ -1069,7 +1069,7 @@
                             });
                             latestPositionMarker.bindPopup(
                                 `
-                                    <header style="background-color: #5FC6D9;color:white;margin-bottom: 9px;border-top-right-radius: 5px;border-top-left-radius: 5px;" class="w3-container">
+                                    <header style="background-color: #4C96AF;color:white;margin-bottom: 9px;border-top-right-radius: 5px;border-top-left-radius: 5px;" class="w3-container">
                                         <a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].latitude},${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].longitude}" style="display: inline-block; vertical-align: super;">
                                             <img class="streetViewIMG" src="https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].latitude}%20${trackers[i].devicePosition[trackers[i].devicePosition.length - 1].longitude}&sensor=false&key=AIzaSyB9Xt0V-Ml-TNytAcS9YyKyrjeYW59B2i8">
                                             <div class="text-block">
@@ -1094,7 +1094,7 @@
                                             </div>
                                     </div>
                                     
-                                    <div class="item-id inside_text olive" style="background-color:#5FC6D9;${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.motion ? "display: block;" : "display:none;")};    margin-bottom: 0px;
+                                    <div class="item-id inside_text olive" style="background-color:#4C96AF;${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.motion ? "display: block;" : "display:none;")};    margin-bottom: 0px;
                                         width: 99px;
                                         margin-left: 17px;
                                         padding-left: 17px;
@@ -1103,7 +1103,7 @@
                                         margin-top: -21px;">
                                         <i class="fa-solid fa-car-side"></i> Moving
                                     </div>
-                                    <div class="item-id inside_text olive" style="background-color:#5FC6D9;${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.motion ? "display: none;" : "display:block;")};    margin-bottom: 0px;
+                                    <div class="item-id inside_text olive" style="background-color:#4C96AF;${escapeHtml(trackers[i].devicePosition[trackers[i].devicePosition.length - 1].attributes.motion ? "display: none;" : "display:block;")};    margin-bottom: 0px;
                                         width: 99px;
                                         margin-left: 17px;
                                         padding-left: 17px;
@@ -1308,7 +1308,7 @@
                                         </tr>
                                     </table>`*/
                                 `
-                                    <header style="background-color: #5FC6D9;color:white;margin-bottom: 9px;border-top-right-radius: 5px;border-top-left-radius: 5px;" class="w3-container">
+                                    <header style="background-color: #4C96AF;color:white;margin-bottom: 9px;border-top-right-radius: 5px;border-top-left-radius: 5px;" class="w3-container">
                                         <a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=${timeStamps[x].lat},${timeStamps[x].long}" style="display: inline-block; vertical-align: super;">
                                             <img class="streetViewIMG" src="https://maps.googleapis.com/maps/api/streetview?size=400x400&location=${timeStamps[x].lat}%20${timeStamps[x].long}&sensor=false&key=AIzaSyB9Xt0V-Ml-TNytAcS9YyKyrjeYW59B2i8">
                                             <div class="text-block">

@@ -709,7 +709,7 @@
                             for (let i = 0; i < companies.length; i++) {
                                 if (companies[i].companyName !== "Deleted Trackers" && companies[i].companyName !== "Unassigned Trackers") {
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
-                                        <h1 class="companyTitle" style="font-size:medium;display: block;margin-top: 21px !important;margin-left: 15px;background-color:#ccc;width:fit-content;padding:2px;border-radius:2px;color:black;text-transform: uppercase;">${escapeHtml(companies[i].companyName)}</h1>
+                                        <h1 class="companyTitle" style="font-size:medium;display: block;margin-top: 21px !important;margin-left: 10%;background-color:#ccc;width:fit-content;padding:2px;border-radius:2px;color:black;text-transform: uppercase;">${escapeHtml(companies[i].companyName)}</h1>
                                         <ons-list-item style="margin-bottom: 5px;margin:auto;width:45%;margin-top: -54px;" modifier="longdivider">
                                             <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
                                                 <ons-icon size="20px" icon="fa-user"></ons-icon> Users
