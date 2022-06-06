@@ -446,6 +446,48 @@
                                             </select>
                                         </ons-select>
                                     </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Asset type:
+                                        </b>
+                                        <ons-select modifier="underbar" placeholder="Group" float>
+                                            <select id="trackerType">
+                                                <option value="Car">Car</option>
+                                                <option value="Truck">Truck</option>
+                                                <option value="Boat">Boat</option>
+                                            </select>
+                                        </ons-select>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Color:
+                                        </b>
+                                        <ons-input id="trackerColor" modifier="underbar" placeholder="Color" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            VIN:
+                                        </b>
+                                        <ons-input id="trackerVIN" modifier="underbar" placeholder="VIN" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Year:
+                                        </b>
+                                        <ons-input type="number" id="trackerYear" modifier="underbar" placeholder="Year"
+                                            float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            License plate:
+                                        </b>
+                                        <ons-input id="trackerLicense" modifier="underbar" placeholder="License plate"
+                                            float>
+                                        </ons-input>
+                                    </p>
 
                                     <p style="display:inline-block;">
                                         <ons-button onclick="hideDialog('addtracker', true)">
@@ -1491,6 +1533,13 @@
                 let name = document.getElementById("trackerName");
                 let imei = document.getElementById("trackerImei");
                 let group = document.getElementById("trackerGroup");
+
+                let assetType = document.getElementById("trackerType");
+                let color = document.getElementById("trackerColor");
+                let vin = document.getElementById("trackerVIN");
+                let year = document.getElementById("trackerYear");
+                let licensePlate = document.getElementById("trackerImei");
+
                 let setRoot = undefined;
 
                 if (name.value.length > 0 && imei.value.length > 0 && group.value.length > 0) {
@@ -1498,7 +1547,7 @@
                         setRoot = "Root";
                     }
 
-                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, (isSuccess, msg) => {
+                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, year.value, licensePlate.value, (isSuccess, msg) => {
                         if (isSuccess) {
                             $("#trackerHeader").empty();
                             ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
@@ -1506,6 +1555,11 @@
                             name.value = "";
                             imei.value = "";
                             group.value = "";
+                            assetType.value = "";
+                            color.value = "";
+                            vin.value = "";
+                            year.value = "";
+                            licensePlate.value = "";
                         } else {
                             ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
                             return;
