@@ -378,6 +378,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Groups</th>
+                                                <th style="width:40%;"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -474,6 +475,7 @@
                                                 <th>Tracker Name</th>
                                                 <th>Serial number</th>
                                                 <th>Group</th>
+                                                <th style="width:30%"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -825,10 +827,24 @@
                                             <td>
                                                 ${groupsHTMLString}
                                             </td>
+                                            <td style="width:40%;">
+                                                <ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit user
+                                    </ons-button>
+                                    <ons-button id="groupSelector${cssID}" onclick="showTemplateDialog('editgroup'); loadTree('${escapeHtml(JSON.stringify(users[i]))}');" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit groups
+                                    </ons-button>
+                                    <ons-button onclick="loginAsUserButton('${escapeHtml(users[i].email)}')" class="btn-height">
+                                        <ons-icon size="20px" icon="md-face"></ons-icon> Login as user
+                                    </ons-button>
+                                    <ons-button onclick="showTemplateDialog('deleteuser'); selectUser('${escapeHtml(users[i].email)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
+                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete user
+                                    </ons-button>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="expandable-content">
+                                <!--<div class="expandable-content">
                                     <!--<p style="display: inline-block;">
                                         <ons-input disabled="true" style="opacity:1" value="${escapeHtml(users[i].firstName)}" id="${escapeHtml(users[i].email)}fname" modifier="underbar" placeholder="First name" float>
                                         </ons-input>
@@ -851,7 +867,7 @@
                                         </ons-button>
                                     </p>
                                     <br>-->
-                                    <ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
+                                    <!--<ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit user
                                     </ons-button>
                                     <ons-button id="groupSelector${cssID}" onclick="showTemplateDialog('editgroup'); loadTree('${escapeHtml(JSON.stringify(users[i]))}');" class="btn-height">
@@ -862,8 +878,8 @@
                                     </ons-button>
                                     <ons-button onclick="showTemplateDialog('deleteuser'); selectUser('${escapeHtml(users[i].email)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
                                         <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete user
-                                    </ons-button>
-                                </div>
+                                    </ons-button>-->
+                                </div>-->
                             </ons-list-item>
                             <ons-dialog style="display:none;" id="${escapeHtml(users[i].email)}editFormPopup">
                             <div style="text-align: center; padding: 10px;">
@@ -991,10 +1007,18 @@
                                             <td>
                                                 <span style="margin-right: 1px;background-color: #00c5ff;padding-right: 16px;padding-left: 16px;height: 29px;padding-top: 4px;" class="notification">${escapeHtml(trackers[i].groupName)}</span>
                                             </td>
+                                            <td style="width:30%;">
+                                                <ons-button id="${escapeHtml(trackers[i].deviceName)}enable" onclick="document.getElementById('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice').style.display = 'block'" class="btn-height">
+                                                    <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit tracker
+                                                </ons-button>
+                                                <ons-button onclick="showTemplateDialog('deletetracker');selectTracker('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
+                                                    <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete tracker
+                                                </ons-button>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="expandable-content">
+                                <!--<div class="expandable-content">
                                     <!--<p style="display: inline-block;">
                                         <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].deviceName)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditName" modifier="underbar" placeholder="Name" float>
                                         </ons-input>
@@ -1028,7 +1052,7 @@
                                     <ons-button onclick="showTemplateDialog('deletetracker');selectTracker('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
                                         <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete tracker
                                     </ons-button>
-                                </div>
+                                </div>-->
                             </ons-list-item>
                             <ons-dialog style="display:none;" id="${escapeHtml(trackers[i].deviceName)}editFormPopupDevice">
                             <div style="text-align: center; padding: 10px;">
@@ -1179,6 +1203,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Groups</th>
+                                                <th style="width:40%;"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1217,6 +1242,7 @@
                                                 <th>Tracker Name</th>
                                                 <th>Serial number</th>
                                                 <th>Group</th>
+                                                <th style="width:30%"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1233,6 +1259,7 @@
                                                 <th>Tracker Name</th>
                                                 <th>Serial number</th>
                                                 <th>Group</th>
+                                                <th style="width:30%"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1426,6 +1453,7 @@
                                                 <th>Tracker Name</th>
                                                 <th>Serial number</th>
                                                 <th>Group</th>
+                                                <th style="width:30%"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1458,6 +1486,7 @@
                                                 <th>Tracker Name</th>
                                                 <th>Serial number</th>
                                                 <th>Group</th>
+                                                <th style="width:30%"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1487,6 +1516,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Groups</th>
+                                                <th style="width:40%;"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1515,6 +1545,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Groups</th>
+                                                <th style="width:40%;"></th>
                                             </tr>
                                         </table>
                                     </div>
@@ -1603,6 +1634,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Groups</th>
+                                                <th style="width:40%;"></th>
                                             </tr>
                                         </table>
                                     </div>
