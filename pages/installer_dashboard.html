@@ -1077,8 +1077,12 @@
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Asset type:
                                         </b>
-                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].assetType)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm" modifier="underbar" placeholder="Asset type" float>
-                                        </ons-input>
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].assetType)}">${escapeHtml(trackers[i].assetType)}</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType==='Boat'?'none':'block'}" value="Boat">Boat</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType==='Car'?'none':'block'}" value="Car">Car</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType==='Truck'?'none':'block'}" value="Truck">Truck</option>
+                                        </ons-select>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">

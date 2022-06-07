@@ -1191,8 +1191,12 @@
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Asset type:
                                         </b>
-                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].assetType)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm" modifier="underbar" placeholder="Asset type" float>
-                                        </ons-input>
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].assetType)}">${escapeHtml(trackers[i].assetType)}</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType === 'Boat' ? 'none' : 'block'}" value="Boat">Boat</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType === 'Car' ? 'none' : 'block'}" value="Car">Car</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType === 'Truck' ? 'none' : 'block'}" value="Truck">Truck</option>
+                                        </ons-select>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
@@ -1226,14 +1230,14 @@
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Sim card:
                                         </b>
-                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].simCard)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditLicensePlateForm" modifier="underbar" placeholder="Sim card" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].simCard)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditSimCardForm" modifier="underbar" placeholder="Sim card" float>
                                         </ons-input>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Phone:
                                         </b>
-                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].phone)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditLicensePlateForm" modifier="underbar" placeholder="Phone" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].phone)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditPhoneForm" modifier="underbar" placeholder="Phone" float>
                                         </ons-input>
                                     </p>
                                     <p>
@@ -1374,6 +1378,8 @@
             let color = document.getElementById(deviceName + "trackerEditColorForm").value;
             let vin = document.getElementById(deviceName + "trackerEditVINForm").value;
             let year = document.getElementById(deviceName + "trackerEditYearForm").value;
+            let phone = document.getElementById(deviceName + "trackerEditPhoneForm").value;
+            let simCard = document.getElementById(deviceName + "trackerEditSimCardForm").value;
             let licensePlate = document.getElementById(deviceName + "trackerEditLicensePlateForm").value;
 
             let setRoot = undefined;
@@ -1382,7 +1388,7 @@
                 setRoot = "Root";
             }
 
-            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup, installerEmail: installerG }
+            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, phone, simCard, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup, installerEmail: installerG }
 
             editTracker(updatedTracker, (isSuccess, msg) => {
                 if (isSuccess) {
