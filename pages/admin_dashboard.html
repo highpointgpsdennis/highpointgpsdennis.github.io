@@ -1189,12 +1189,52 @@
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
-                                            Group:
+                                            Asset type:
                                         </b>
-                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditGroupForm">
-                                            <option style="opacity:1" value="${escapeHtml(trackers[i].groupName)}">${escapeHtml(trackers[i].groupName)}</option>
-                                            ${groupsHTML}
-                                        </ons-select>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].assetType)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm" modifier="underbar" placeholder="Asset type" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Color:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].color)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditColorForm" modifier="underbar" placeholder="Color" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            VIN:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].vin)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditVINForm" modifier="underbar" placeholder="VIN" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Year:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].year)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditYearForm" modifier="underbar" placeholder="Year" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            License plate:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].licensePlate)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditLicensePlateForm" modifier="underbar" placeholder="License plate" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Sim card:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].simCard)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditLicensePlateForm" modifier="underbar" placeholder="Sim card" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Phone:
+                                        </b>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].phone)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditLicensePlateForm" modifier="underbar" placeholder="Phone" float>
+                                        </ons-input>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
@@ -1203,6 +1243,15 @@
                                         <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditCompanyForm">
                                             <option style="opacity:1" value="${escapeHtml(companyG)}">${escapeHtml(companyG)}</option>
                                             ${companiesHTML}
+                                        </ons-select>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Group:
+                                        </b>
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditGroupForm">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].groupName)}">${escapeHtml(trackers[i].groupName)}</option>
+                                            ${groupsHTML}
                                         </ons-select>
                                     </p>
                                     <br>
@@ -1321,13 +1370,19 @@
             let trackerEditImei = document.getElementById(deviceName + "trackerEditImeiForm").value;
             let trackerEditGroup = document.getElementById(deviceName + "trackerEditGroupForm").value;
             let trackerEditCompany = document.getElementById(deviceName + "trackerEditCompanyForm").value;
+            let assetType = document.getElementById(deviceName + "trackerEditAssetTypeForm").value;
+            let color = document.getElementById(deviceName + "trackerEditColorForm").value;
+            let vin = document.getElementById(deviceName + "trackerEditVINForm").value;
+            let year = document.getElementById(deviceName + "trackerEditYearForm").value;
+            let licensePlate = document.getElementById(deviceName + "trackerEditLicensePlateForm").value;
+
             let setRoot = undefined;
 
             if (trackerEditGroup === companyG) {
                 setRoot = "Root";
             }
 
-            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup, installerEmail: installerG }
+            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup, installerEmail: installerG }
 
             editTracker(updatedTracker, (isSuccess, msg) => {
                 if (isSuccess) {

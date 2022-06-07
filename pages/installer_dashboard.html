@@ -829,7 +829,7 @@
                                             </td>
                                             <td style="width:40%;">
                                                 <ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit user
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit
                                     </ons-button>
                                     <ons-button id="groupSelector${cssID}" onclick="showTemplateDialog('editgroup'); loadTree('${escapeHtml(JSON.stringify(users[i]))}');" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit groups
@@ -838,7 +838,7 @@
                                         <ons-icon size="20px" icon="md-face"></ons-icon> Login as user
                                     </ons-button>
                                     <ons-button onclick="showTemplateDialog('deleteuser'); selectUser('${escapeHtml(users[i].email)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete user
+                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete
                                     </ons-button>
                                             </td>
                                         </tr>
@@ -868,7 +868,7 @@
                                     </p>
                                     <br>-->
                                     <!--<ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit user
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit
                                     </ons-button>
                                     <ons-button id="groupSelector${cssID}" onclick="showTemplateDialog('editgroup'); loadTree('${escapeHtml(JSON.stringify(users[i]))}');" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit groups
@@ -877,7 +877,7 @@
                                         <ons-icon size="20px" icon="md-face"></ons-icon> Login as user
                                     </ons-button>
                                     <ons-button onclick="showTemplateDialog('deleteuser'); selectUser('${escapeHtml(users[i].email)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete user
+                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete
                                     </ons-button>-->
                                 </div>-->
                             </ons-list-item>
@@ -1009,10 +1009,10 @@
                                             </td>
                                             <td style="width:30%;">
                                                 <ons-button id="${escapeHtml(trackers[i].deviceName)}enable" onclick="document.getElementById('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice').style.display = 'block'" class="btn-height">
-                                                    <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit tracker
+                                                    <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit
                                                 </ons-button>
                                                 <ons-button onclick="showTemplateDialog('deletetracker');selectTracker('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
-                                                    <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete tracker
+                                                    <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete
                                                 </ons-button>
                                             </td>
                                         </tr>
@@ -1041,7 +1041,7 @@
                                     </p>
                                     <br>-->
                                     <ons-button id="${escapeHtml(trackers[i].deviceName)}enable" onclick="document.getElementById('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice').style.display = 'block'" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit tracker
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit
                                     </ons-button>
                                     <ons-button style="display:none;" id="${escapeHtml(trackers[i].deviceName)}edit" onclick="editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
@@ -1050,7 +1050,7 @@
                                         <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                     </ons-button>
                                     <ons-button onclick="showTemplateDialog('deletetracker');selectTracker('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" style="background-color:rgb(255, 64, 64);" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete tracker
+                                        <ons-icon size="20px" icon="fa-trash"></ons-icon> Delete
                                     </ons-button>
                                 </div>-->
                             </ons-list-item>
@@ -1077,59 +1077,36 @@
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Asset type:
                                         </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].assetType)}" id="${escapeHtml(trackers[i].assetType)}trackerEditAssetTypeForm" modifier="underbar" placeholder="Asset type" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].assetType)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm" modifier="underbar" placeholder="Asset type" float>
                                         </ons-input>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Color:
                                         </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].color)}" id="${escapeHtml(trackers[i].color)}trackerEditImeiForm" modifier="underbar" placeholder="Color" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].color)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditColorForm" modifier="underbar" placeholder="Color" float>
                                         </ons-input>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             VIN:
                                         </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].vin)}" id="${escapeHtml(trackers[i].vin)}trackerEditImeiForm" modifier="underbar" placeholder="VIN" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].vin)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditVINForm" modifier="underbar" placeholder="VIN" float>
                                         </ons-input>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Year:
                                         </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].year)}" id="${escapeHtml(trackers[i].year)}trackerEditImeiForm" modifier="underbar" placeholder="Year" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].year)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditYearForm" modifier="underbar" placeholder="Year" float>
                                         </ons-input>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             License plate:
                                         </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].licensePlate)}" id="${escapeHtml(trackers[i].licensePlate)}trackerEditImeiForm" modifier="underbar" placeholder="License plate" float>
+                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].licensePlate)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditLicensePlateForm" modifier="underbar" placeholder="License plate" float>
                                         </ons-input>
-                                    </p>
-                                    <p>
-                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
-                                            Sim card:
-                                        </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].simCard)}" id="${escapeHtml(trackers[i].simCard)}trackerEditImeiForm" modifier="underbar" placeholder="Sim card" float>
-                                        </ons-input>
-                                    </p>
-                                    <p>
-                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
-                                            Phone:
-                                        </b>
-                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].phone)}" id="${escapeHtml(trackers[i].phone)}trackerEditImeiForm" modifier="underbar" placeholder="Phone" float>
-                                        </ons-input>
-                                    </p>
-                                    <p>
-                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
-                                            Group:
-                                        </b>
-                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditGroupForm">
-                                            <option style="opacity:1" value="${escapeHtml(trackers[i].groupName)}">${escapeHtml(trackers[i].groupName)}</option>
-                                            ${groupsHTML}
-                                        </ons-select>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
@@ -1140,6 +1117,15 @@
                                             ${companiesHTML}
                                         </ons-select>
                                     </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Group:
+                                        </b>
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditGroupForm">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].groupName)}">${escapeHtml(trackers[i].groupName)}</option>
+                                            ${groupsHTML}
+                                        </ons-select>
+                                    </p>  
                                     <br>
                                     <ons-button id="${escapeHtml(trackers[i].deviceName)}edit" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
@@ -1271,13 +1257,19 @@
             let trackerEditImei = document.getElementById(deviceName + "trackerEditImeiForm").value;
             let trackerEditGroup = document.getElementById(deviceName + "trackerEditGroupForm").value;
             let trackerEditCompany = document.getElementById(deviceName + "trackerEditCompanyForm").value;
+            let assetType = document.getElementById(deviceName + "trackerEditAssetTypeForm").value;
+            let color = document.getElementById(deviceName + "trackerEditColorForm").value;
+            let vin = document.getElementById(deviceName + "trackerEditVINForm").value;
+            let year = document.getElementById(deviceName + "trackerEditYearForm").value;
+            let licensePlate = document.getElementById(deviceName + "trackerEditLicensePlateForm").value;
+
             let setRoot = undefined;
 
             if (trackerEditGroup === companyG) {
                 setRoot = "Root";
             }
 
-            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup }
+            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup }
 
             editTracker(updatedTracker, (isSuccess, msg) => {
                 if (isSuccess) {
