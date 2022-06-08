@@ -1282,7 +1282,7 @@
                                     </p>
                                     <fieldset>                                        
                                         <div>
-                                            <input type="checkbox" id="engineCut" name="engineCut" ${escapeHtml(trackers[i].cutEngine?'checked':'')}>
+                                            <input type="checkbox" id="${escapeHtml(trackers[i].deviceName)}trackerEditEngineCutForm" name="engineCut" ${escapeHtml(trackers[i].cutEngine ? 'checked' : '')}>
                                             <label for="engineCut">Enable cut engine</label>
                                         </div>
                                     </fieldset>
@@ -1409,6 +1409,7 @@
             let phone = document.getElementById(deviceName + "trackerEditPhoneForm").value;
             let simCard = document.getElementById(deviceName + "trackerEditSimCardForm").value;
             let licensePlate = document.getElementById(deviceName + "trackerEditLicensePlateForm").value;
+            let cutEngine = document.getElementById(deviceName + "trackerEditEngineCutForm").checked;
 
             let setRoot = undefined;
 
@@ -1416,7 +1417,7 @@
                 setRoot = "Root";
             }
 
-            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, phone, simCard, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup, installerEmail: installerG }
+            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, phone, simCard, cutEngine, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup, installerEmail: installerG }
 
             editTracker(updatedTracker, (isSuccess, msg) => {
                 if (isSuccess) {
@@ -1639,7 +1640,7 @@
                         setRoot = "Root";
                     }
 
-                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, parseInt(year.value), licensePlate.value, simCard.value, phone.value, cutEngine.value, (isSuccess, msg) => {
+                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, parseInt(year.value), licensePlate.value, simCard.value, phone.value, cutEngine.checked, (isSuccess, msg) => {
                         if (isSuccess) {
                             $("#trackerHeader").empty();
                             ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
