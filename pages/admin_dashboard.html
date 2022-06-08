@@ -504,6 +504,12 @@
                                             placeholder="Phone" float>
                                         </ons-input>
                                     </p>
+                                    <fieldset>
+                                        <div>
+                                            <input type="checkbox" id="engineCut" name="engineCut" checked>
+                                            <label for="engineCut">Enable cut engine</label>
+                                        </div>
+                                    </fieldset>
 
                                     <p style="display:inline-block;">
                                         <ons-button onclick="hideDialog('addtracker', true)">
@@ -994,7 +1000,7 @@
                                     </p>
                                     <br>
                                     <ons-button id="${escapeHtml(users[i].email)}enable" onclick="document.getElementById('${escapeHtml(users[i].email)}editFormPopup').style.display = 'block';" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Enable edit
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit
                                     </ons-button>
                                     <ons-button id="${escapeHtml(users[i].email)}edit" style="display:none;" onclick="editUserForm('${escapeHtml(users[i].email)}')" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
@@ -1171,7 +1177,7 @@
                                     </p>
                                     <br>
                                     <ons-button id="${escapeHtml(trackers[i].deviceName)}enable" onclick="document.getElementById('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice').style.display = 'block';" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Enable edit
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Edit
                                     </ons-button>
                                     <ons-button style="display:none;" id="${escapeHtml(trackers[i].deviceName)}edit" onclick="editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
@@ -1274,6 +1280,12 @@
                                             ${groupsHTML}
                                         </ons-select>
                                     </p>
+                                    <fieldset>                                        
+                                        <div>
+                                            <input type="checkbox" id="engineCut" name="engineCut" ${escapeHtml(trackers[i].cutEngine?'checked':'')}>
+                                            <label for="engineCut">Enable cut engine</label>
+                                        </div>
+                                    </fieldset>
                                     <br>
                                     <ons-button id="${escapeHtml(trackers[i].deviceName)}edit" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
@@ -1618,6 +1630,7 @@
                 let licensePlate = document.getElementById("trackerImei");
                 let simCard = document.getElementById("trackerSim");
                 let phone = document.getElementById("trackerPhone");
+                let cutEngine = document.getElementById("engineCut");
 
                 let setRoot = undefined;
 
@@ -1626,7 +1639,7 @@
                         setRoot = "Root";
                     }
 
-                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, parseInt(year.value), licensePlate.value, simCard.value, phone.value, (isSuccess, msg) => {
+                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, parseInt(year.value), licensePlate.value, simCard.value, phone.value, cutEngine.value, (isSuccess, msg) => {
                         if (isSuccess) {
                             $("#trackerHeader").empty();
                             ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })

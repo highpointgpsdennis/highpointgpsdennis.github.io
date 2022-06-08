@@ -330,10 +330,10 @@ async function addTracker(companyName, groupName, deviceImei, deviceName, cb) {
 
 }
 
-async function adminAddTracker(installerEmail, companyName, groupName, deviceImei, deviceName, assetType, color, vin, year, licensePlate, simCard, phone, cb) {
+async function adminAddTracker(installerEmail, companyName, groupName, deviceImei, deviceName, assetType, color, vin, year, licensePlate, simCard, phone, cutEngine, cb) {
     const response = await fetch(baseURL + "/device", {
         method: "POST",
-        body: JSON.stringify({ groupName, companyName, deviceImei, deviceName, installerEmail, assetType, color, vin, year, licensePlate, simCard, phone }),
+        body: JSON.stringify({ groupName, companyName, deviceImei, deviceName, installerEmail, assetType, color, vin, year, licensePlate, simCard, phone, cutEngine }),
         headers: {
             "Content-Type": "application/json"
         },
