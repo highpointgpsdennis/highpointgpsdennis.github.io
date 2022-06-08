@@ -1030,7 +1030,7 @@
                                                             <i class="fa-solid fa-key"></i> Starter Control
                                                         </button>
 
-                                                        <button style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'inline-block' : 'none')} !important;text-align: center; width:49%;font-size: 15px;background-color: #749dbe!important;" onclick="showTrips()" class="w3-button w3-blue">
+                                                        <button style="display: ${escapeHtml(trackers[i].devicePosition.length > 0 ? 'inline-block' : 'none')} !important;text-align: center; width:${escapeHtml(trackers[i].devicePosition.length > 0 && trackers[i].cutEngine ? '49%' : '100%')};font-size: 15px;background-color: #749dbe!important;" onclick="showTrips()" class="w3-button w3-blue">
                                                                 <i class="fa-solid fa-road"></i> Trips
                                                                 History
                                                         </button>
