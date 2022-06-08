@@ -155,13 +155,13 @@
 
                                 <p style="display:inline-block;">
                                     <ons-button style="display:inline-block;" onclick="hideDialog('editcompany', true)">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
                                     </ons-button>
                                 </p>
                                 <p style="display:inline-block;">
                                     <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
                                         onclick="hideDialog('editcompany', false)">
-                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                     </ons-button>
                                 </p>
                             </div>
@@ -223,13 +223,13 @@
                                 <p style="display:inline-block;">
                                     <ons-button style="display:inline-block;"
                                         onclick="hideDialog('editinstaller', true); saveInstallerInfo();">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
                                     </ons-button>
                                 </p>
                                 <p style="display:inline-block;">
                                     <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
                                         onclick="hideDialog('editinstaller', false)">
-                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                     </ons-button>
                                 </p>
                             </div>
@@ -338,13 +338,13 @@
                                     </p>
                                     <p style="display:inline-block;">
                                         <ons-button style="display:inline-block;" onclick="hideDialog('adduser', true)">
-                                            <ons-icon size="20px" icon="fa-plus"></ons-icon> Save add
+                                            <ons-icon size="20px" icon="fa-plus"></ons-icon> Save
                                         </ons-button>
                                     </p>
                                     <p style="display:inline-block;">
                                         <ons-button style="background-color:rgb(255, 64, 64);display:inline-block;"
                                             onclick="hideDialog('adduser', false)">
-                                            <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel add
+                                            <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                         </ons-button>
                                     </p>
                                 </div>
@@ -364,13 +364,13 @@
 
                                     <p style="display:inline-block;">
                                         <ons-button onclick="hideDialog('editgroup', true)">
-                                            <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                            <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
                                         </ons-button>
                                     </p>
                                     <p style="display:inline-block;">
                                         <ons-button style="background-color:rgb(255, 64, 64)"
                                             onclick="hideDialog('editgroup', false)">
-                                            <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                            <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                         </ons-button>
                                     </p>
                                 </div>
@@ -488,16 +488,32 @@
                                             float>
                                         </ons-input>
                                     </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Sim card:
+                                        </b>
+                                        <ons-input style="opacity:1" id="trackerSim" modifier="underbar"
+                                            placeholder="Sim card" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Phone:
+                                        </b>
+                                        <ons-input style="opacity:1" id="trackerPhone" modifier="underbar"
+                                            placeholder="Phone" float>
+                                        </ons-input>
+                                    </p>
 
                                     <p style="display:inline-block;">
                                         <ons-button onclick="hideDialog('addtracker', true)">
-                                            <ons-icon size="20px" icon="fa-plus"></ons-icon> Save add
+                                            <ons-icon size="20px" icon="fa-plus"></ons-icon> Save
                                         </ons-button>
                                     </p>
                                     <p style="display:inline-block;">
                                         <ons-button style="background-color:rgb(255, 64, 64)"
                                             onclick="hideDialog('addtracker', false)">
-                                            <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel add
+                                            <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                         </ons-button>
                                     </p>
                                 </div>
@@ -1029,10 +1045,10 @@
                                     </p>
                                     <br>
                                     <ons-button id="${escapeHtml(users[i].email)}edit" onclick="hideDialog('${escapeHtml(users[i].email)}editFormPopup', true);editUserForm('${escapeHtml(users[i].email)}')" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
                                     </ons-button>
                                     <ons-button style="background-color:rgb(255, 64, 64);" id="${escapeHtml(users[i].email)}cancel" onclick="hideDialog('${escapeHtml(users[i].email)}editFormPopup', true)" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                     </ons-button>
                             </div>
                             </ons-dialog>`)
@@ -1260,10 +1276,10 @@
                                     </p>
                                     <br>
                                     <ons-button id="${escapeHtml(trackers[i].deviceName)}edit" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save edit
+                                        <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
                                     </ons-button>
                                     <ons-button style="background-color:rgb(255, 64, 64);" id="${escapeHtml(trackers[i].deviceName)}cancel" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);" class="btn-height">
-                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel edit
+                                        <ons-icon size="20px" icon="fa-times"></ons-icon> Cancel
                                     </ons-button>
                             </div>
                             </ons-dialog>`)
@@ -1600,6 +1616,8 @@
                 let vin = document.getElementById("trackerVIN");
                 let year = document.getElementById("trackerYear");
                 let licensePlate = document.getElementById("trackerImei");
+                let simCard = document.getElementById("trackerSim");
+                let phone = document.getElementById("trackerPhone");
 
                 let setRoot = undefined;
 
@@ -1608,7 +1626,7 @@
                         setRoot = "Root";
                     }
 
-                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, year.value, licensePlate.value, (isSuccess, msg) => {
+                    adminAddTracker(installerG, companyG, setRoot || group.value, imei.value, name.value, assetType.value, color.value, vin.value, parseInt(year.value), licensePlate.value, simCard.value, phone.value, (isSuccess, msg) => {
                         if (isSuccess) {
                             $("#trackerHeader").empty();
                             ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
