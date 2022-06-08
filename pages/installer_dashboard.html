@@ -1079,9 +1079,9 @@
                                         </b>
                                         <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditAssetTypeForm">
                                             <option style="opacity:1" value="${escapeHtml(trackers[i].assetType)}">${escapeHtml(trackers[i].assetType)}</option>
-                                            <option style="opacity:1;display:${trackers[i].assetType==='Boat'?'none':'block'}" value="Boat">Boat</option>
-                                            <option style="opacity:1;display:${trackers[i].assetType==='Car'?'none':'block'}" value="Car">Car</option>
-                                            <option style="opacity:1;display:${trackers[i].assetType==='Truck'?'none':'block'}" value="Truck">Truck</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType === 'Boat' ? 'none' : 'block'}" value="Boat">Boat</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType === 'Car' ? 'none' : 'block'}" value="Car">Car</option>
+                                            <option style="opacity:1;display:${trackers[i].assetType === 'Truck' ? 'none' : 'block'}" value="Truck">Truck</option>
                                         </ons-select>
                                     </p>
                                     <p>
@@ -1130,6 +1130,12 @@
                                             ${groupsHTML}
                                         </ons-select>
                                     </p>  
+                                    <fieldset>                                        
+                                        <div>
+                                            <input type="checkbox" id="${escapeHtml(trackers[i].deviceName)}trackerEditEngineCutForm" name="engineCut" ${escapeHtml(trackers[i].cutEngine ? 'checked' : '')}>
+                                            <label for="engineCut">Enable cut engine</label>
+                                        </div>
+                                    </fieldset>
                                     <br>
                                     <ons-button id="${escapeHtml(trackers[i].deviceName)}edit" onclick="hideDialog('${escapeHtml(trackers[i].deviceName)}editFormPopupDevice', true);editTrackerForm('${escapeHtml(trackers[i].deviceName)}','${escapeHtml(trackers[i].deviceImei)}')" class="btn-height">
                                         <ons-icon size="20px" icon="fa-pencil"></ons-icon> Save
@@ -1266,6 +1272,7 @@
             let vin = document.getElementById(deviceName + "trackerEditVINForm").value;
             let year = parseInt(document.getElementById(deviceName + "trackerEditYearForm").value);
             let licensePlate = document.getElementById(deviceName + "trackerEditLicensePlateForm").value;
+            let cutEngine = document.getElementById(deviceName + "trackerEditEngineCutForm").checked;
 
             let setRoot = undefined;
 
@@ -1273,7 +1280,7 @@
                 setRoot = "Root";
             }
 
-            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, licensePlate, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup }
+            let updatedTracker = { deviceCompanyUpdated: trackerEditCompany, companyName: companyG, assetType, color, vin, year, cutEngine, licensePlate, deviceName: deviceName, deviceImei: deviceImei, deviceImeiUpdated: trackerEditImei, deviceNameUpdated: trackerEditName, groupNameUpdated: setRoot || trackerEditGroup }
 
             editTracker(updatedTracker, (isSuccess, msg) => {
                 if (isSuccess) {
