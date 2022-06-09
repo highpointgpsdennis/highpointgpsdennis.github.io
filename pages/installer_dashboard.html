@@ -1088,8 +1088,21 @@
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Color:
                                         </b>
-                                        <ons-input style="opacity:1" value="${escapeHtml(trackers[i].color)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditColorForm" modifier="underbar" placeholder="Color" float>
-                                        </ons-input>
+                                        <!--<ons-input style="opacity:1" value="${escapeHtml(trackers[i].color)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditColorForm" modifier="underbar" placeholder="Color" float>
+                                        </ons-input>-->
+                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditColorForm">
+                                            <option style="opacity:1" value="${escapeHtml(trackers[i].color)}">${escapeHtml(trackers[i].color)}</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Gray' ? 'none' : 'block'}" value="Gray">Gray</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'White' ? 'none' : 'block'}" value="White">White</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Black' ? 'none' : 'block'}" value="Black">Black</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Red' ? 'none' : 'block'}" value="Red">Red</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Blue' ? 'none' : 'block'}" value="Blue">Blue</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Purple' ? 'none' : 'block'}" value="Purple">Purple</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Pink' ? 'none' : 'block'}" value="Pink">Pink</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Green' ? 'none' : 'block'}" value="Green">Green</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Yellow' ? 'none' : 'block'}" value="Yellow">Yellow</option>
+                                            <option style="opacity:1;display:${trackers[i].color === 'Beige' ? 'none' : 'block'}" value="Beige">Beige</option>
+                                        </ons-select>
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
