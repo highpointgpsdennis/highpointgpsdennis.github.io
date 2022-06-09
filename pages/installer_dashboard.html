@@ -1144,6 +1144,20 @@
                                     </p>
                                     <p>
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Sim card:
+                                        </b>
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].simCard)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditSimCardForm" modifier="underbar" placeholder="Sim card" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
+                                            Phone:
+                                        </b>
+                                        <ons-input disabled="true" style="opacity:1" value="${escapeHtml(trackers[i].phone)}" id="${escapeHtml(trackers[i].deviceName)}trackerEditPhoneForm" modifier="underbar" placeholder="Phone" float>
+                                        </ons-input>
+                                    </p>
+                                    <p>
+                                        <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Company:
                                         </b>
                                         <ons-select onclick="getGroupsForEdit('${escapeHtml(trackers[i].deviceName)}')" modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditCompanyForm">
