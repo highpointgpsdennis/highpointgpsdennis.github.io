@@ -375,7 +375,7 @@
                         <ons-list style="margin-top:95px">
                             <ons-list-header>Select user</ons-list-header>
                             <div id="userHeader">
-                                <ons-list-item >
+                                <ons-list-item>
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -472,7 +472,7 @@
                         <ons-list style="margin-top:95px">
                             <ons-list-header>Select trackers</ons-list-header>
                             <div id="trackerHeader">
-                                <ons-list-item >
+                                <ons-list-item>
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -494,20 +494,22 @@
                 <ons-page id="groups">
                     <div id="groupTableDisplay" style="width: 100%;height: 95%;overflow-y:scroll;">
                         <div class="left">
-                            <div id="leaveAfterSaveMask" style="pointer-events: all;"
-                                onclick="popWarningAfterChange();">
-                                <ons-back-button style="pointer-events: none;" id="bkBut">Back</ons-back-button>
+                            <div id="leaveAfterSaveMask">
+                                <ons-back-button id="bkBut">Back</ons-back-button>
+                                <ons-button onclick="popWarningAfterChange();"
+                                    style="width: fit-content;margin: auto;display: block;"
+                                    id="bkBut">Save</ons-button>
                             </div>
                         </div>
 
                         <ons-alert-dialog id="leaveAfterSave" modifier="rowfooter">
                             <div class="alert-dialog-content">
-                                Would you like to save your changes before leaving?
+                                Would you like to save your changes?
                             </div>
                             <div class="alert-dialog-footer">
                                 <ons-alert-dialog-button onclick="hideDialog('leaveAfterSave',true)">Save
                                 </ons-alert-dialog-button>
-                                <ons-alert-dialog-button onclick="hideDialog('leaveAfterSave',false)">Leave
+                                <ons-alert-dialog-button onclick="hideDialog('leaveAfterSave',false)">Cancel
                                 </ons-alert-dialog-button>
                             </div>
                         </ons-alert-dialog>
@@ -1493,7 +1495,7 @@
 
             setNewGroups(toSave, companyG, (isSuccess, msg) => {
                 if (isSuccess) {
-                    document.getElementById("bkBut").click()
+                    //document.getElementById("bkBut").click()
                     ons.notification.toast(msg, { timeout: 1000, animation: 'fall' });
                 } else {
                     ons.notification.toast("NOT SAVED! " + msg, { timeout: 5000, animation: 'fall' });
@@ -1502,11 +1504,11 @@
         }
 
         let popWarningAfterChange = () => {
-            if (!arraysEqual(initialGroupData, org_chart.getData())) {
+            //if (!arraysEqual(initialGroupData, org_chart.getData())) {
                 showTemplateDialog("leaveAfterSave");
-            } else {
-                document.getElementById("bkBut").click()
-            }
+            //}/* else {
+            //    document.getElementById("bkBut").click()
+            //}*/
         }
 
         function arraysEqual(a, b) {
@@ -1745,7 +1747,7 @@
                 })
 
             } else if (id === "leaveAfterSave" && !confirm) {
-                document.getElementById("bkBut").click()
+                //document.getElementById("bkBut").click()
             } else if (id === "leaveAfterSave" && confirm) {
                 save();
             }
