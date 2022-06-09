@@ -258,6 +258,10 @@
 
                                 </div>
 
+                                <div id="deletedTrackersContainer">
+
+                                </div>
+
                             </ons-list>
                         </ons-list-item>
                     </div>
@@ -735,16 +739,29 @@
                                         $(".row").append(`<hr>`);
                                     }
                                 } else {
-                                    $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
+                                    //deletedTrackersContainer
+
+                                    if (companies[i].companyName === "Deleted Trackers") {
+                                        $("#deletedTrackersContainer").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
                                         <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
                                         <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
                                             <ons-button style="margin:auto;width: 147.73px;text-align: center;" onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
                                                 <ons-icon size="20px" icon="fa-car"></ons-icon> Trackers
                                             </ons-button>
                                         </ons-list-item>
-                                    </div>`)
+                                        </div>`)
+                                    }
 
                                     if (companies[i].companyName === "Unassigned Trackers") {
+                                        $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
+                                        <ons-list-header class="companyTitle" style="font-size:medium;text-align:center;">${escapeHtml(companies[i].companyName)}</ons-list-header>
+                                        <ons-list-item style="margin-bottom: 5px;" modifier="longdivider">
+                                            <ons-button style="margin:auto;width: 147.73px;text-align: center;" onclick="getTrackerPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-tracker">
+                                                <ons-icon size="20px" icon="fa-car"></ons-icon> Trackers
+                                            </ons-button>
+                                        </ons-list-item>
+                                        </div>`)
+
                                         $(".row").append(`<ons-list-header class="companyTitle" style="font-size:medium;text-align:center;"><ons-button style="width: fit-content;margin:auto;" onclick="showTemplateDialog('addcompany')"
                                             modifier="large--quiet">
                                             <ons-icon icon="md-plus"></ons-icon>
