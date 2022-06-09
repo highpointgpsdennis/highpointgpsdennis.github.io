@@ -688,6 +688,7 @@
 
         const getCompanyList = () => {
             $(".row").empty();
+            $("#deletedTrackersContainer").empty();
             getLogo((isSuccess, data) => {
                 if (isSuccess) {
                     installerG = data.installerName;
@@ -719,7 +720,7 @@
                                     $(".row").append(`<div class="companyItem" id="${escapeHtml(companies[i].companyName)}" class="companyAlign column">
                                         <h1 class="companyTitle" style="font-size:medium;display: block;margin-top: 21px !important;margin-left: 10%;width:fit-content;padding:2px;border-radius:2px;color:black;text-transform: uppercase;"> &nbsp;</h1>
                                         <ons-list-item style="margin-bottom: 5px;margin:auto;width:45%;margin-top: -54px;" modifier="longdivider">
-                                            <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;text-transform: uppercase;background-color:#004cb1;" class="btn-height">
+                                            <ons-button class="companyTitle" style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;text-transform: uppercase;background-color:#004cb1;" class="btn-height">
                                                 ${escapeHtml(companies[i].companyName)}
                                             </ons-button>
                                             <ons-button style="margin:auto;margin-bottom: 3px;width: 147.73px;text-align: center;" onclick="getUserPage('${escapeHtml(companies[i].companyName)}')" class="btn-height push-user">
@@ -1670,6 +1671,7 @@
                 deleteCompany(selectedCompany.companyName, selectedCompany.address, selectedCompany.phoneNumber, (isSuccess, msg) => {
                     if (isSuccess) {
                         $(".row").empty();
+                        $("#deletedTrackersContainer").empty();
                         ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
                         getCompanyList();
                         companyNameAdd.value = "";
@@ -1689,6 +1691,7 @@
                     addCompany(companyNameAdd.value, companyAddressAdd.value, companyPhoneAdd.value, (isSuccess, msg) => {
                         if (isSuccess) {
                             $(".row").empty();
+                            $("#deletedTrackersContainer").empty();
                             ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
                             getCompanyList();
                             companyNameAdd.value = "";
@@ -1712,6 +1715,7 @@
                     editCompany(selectedCompany.companyName, selectedCompany.address, selectedCompany.phoneNumber, companyNameEdit, companyAddressEdit, companyPhoneEdit, (isSuccess, msg) => {
                         if (isSuccess) {
                             $(".row").empty();
+                            $("#deletedTrackersContainer").empty();
                             ons.notification.toast(msg, { timeout: 1000, animation: 'fall' })
                             getCompanyList();
                         } else {
