@@ -1266,7 +1266,7 @@
                                         <b style="vertical-align: -webkit-baseline-middle;margin-right: 10px;">
                                             Company:
                                         </b>
-                                        <ons-select modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditCompanyForm">
+                                        <ons-select onclick="getGroupsForEdit('${escapeHtml(trackers[i].deviceName)}')" modifier="underbar" style="opacity:1" id="${escapeHtml(trackers[i].deviceName)}trackerEditCompanyForm">
                                             <option style="opacity:1" value="${escapeHtml(companyG)}">${escapeHtml(companyG)}</option>
                                             ${companiesHTML}
                                         </ons-select>
@@ -1421,16 +1421,16 @@
 
             editTracker(updatedTracker, (isSuccess, msg) => {
                 if (isSuccess) {
-                    if (trackerEditCompany !== companyG) {
-                        moveDeviceToDiffCompany(updatedTracker, (isSuccess, msg) => {
-                            $("#trackerHeader").empty();
-                            getTrackerList(companyG);
-                            ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
-                        })
-                    } else {
+                    // if (trackerEditCompany !== companyG) {
+                    //     moveDeviceToDiffCompany(updatedTracker, (isSuccess, msg) => {
+                    //         $("#trackerHeader").empty();
+                    //         getTrackerList(companyG);
+                    //         ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
+                    //     })
+                    // } else {
                         $("#trackerHeader").empty();
                         getTrackerList(companyG);
-                    }
+                    //}
                 } else {
                     ons.notification.toast(msg, { timeout: 5000, animation: 'fall' })
                     return;
@@ -1788,6 +1788,19 @@
             companyG = company;
             document.querySelector('#myNavigator').pushPage('groups.html');
             getGroupList(company);
+        }
+
+        function getGroupsForEdit(selectedDevice) {
+            adminGroupList(document.getElementById(selectedDevice + 'trackerEditCompanyForm').value,installerG, (isSuccess, groups) => {
+                if (isSuccess) {
+                    let newGroupsDropdown = `<select style="border-bottom:solid;border-color:red;" class="select-input select-input--underbar"><option value="Root">${escapeHtml(document.getElementById(selectedDevice + 'trackerEditCompanyForm').value)}</option>`;
+                    for (let x = 0; x < groups.length; x++) {
+                        newGroupsDropdown = newGroupsDropdown + `<option value="${escapeHtml(groups[x].groupName)}">${escapeHtml(groups[x].groupName)}</option>`;
+                    }
+                    newGroupsDropdown = newGroupsDropdown + `</select>`;
+                    document.getElementById(selectedDevice + 'trackerEditGroupForm').innerHTML = newGroupsDropdown;
+                }
+            })
         }
 
         function getTrackerPage(company, installerEmail) {
