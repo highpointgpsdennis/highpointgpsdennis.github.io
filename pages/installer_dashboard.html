@@ -375,7 +375,7 @@
                         <ons-list style="margin-top:95px">
                             <ons-list-header>Select user</ons-list-header>
                             <div id="userHeader">
-                                <ons-list-item expandable expanded>
+                                <ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -472,7 +472,7 @@
                         <ons-list style="margin-top:95px">
                             <ons-list-header>Select trackers</ons-list-header>
                             <div id="trackerHeader">
-                                <ons-list-item expandable expanded>
+                                <ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -835,7 +835,7 @@
 
                                 cssIDCounter = cssIDCounter + 1;
                                 let cssID = cssIDCounter + "";
-                                $("#userHeader").append(`<ons-list-item class="userItem" id="${escapeHtml(users[i].email) + "" + escapeHtml(users[i].firstName) + "" + escapeHtml(users[i].lastName)}" expandable expanded>
+                                $("#userHeader").append(`<ons-list-item class="userItem" id="${escapeHtml(users[i].email) + "" + escapeHtml(users[i].firstName) + "" + escapeHtml(users[i].lastName)}" >
                                 <div class="center">
                                     <table style="table-layout: fixed;">
                                         <tr>
@@ -1015,7 +1015,7 @@
                                 groupsHTML = groupsHTML + `<option value="${escapeHtml(companyG)}">${escapeHtml(companyG)}</option>`;
                             }
 
-                            $("#trackerHeader").append(`<ons-list-item class="trackerItem" expandable expanded id="${escapeHtml(trackers[i].deviceName) + escapeHtml(trackers[i].deviceImei) + escapeHtml(trackers[i].groupName)}">
+                            $("#trackerHeader").append(`<ons-list-item class="trackerItem"  id="${escapeHtml(trackers[i].deviceName) + escapeHtml(trackers[i].deviceImei) + escapeHtml(trackers[i].groupName)}">
                                 <div class="center">
                                     <table style="table-layout: fixed;">
                                         <tr>
@@ -1271,7 +1271,7 @@
             editUser(updatedUser, (isSuccess, msg) => {
                 if (isSuccess) {
                     $("#userHeader").empty();
-                    $("#userHeader").append(`<ons-list-item expandable expanded>
+                    $("#userHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -1317,7 +1317,7 @@
                     // if (trackerEditCompany !== companyG) {
                     //     moveDeviceToDiffCompany(updatedTracker, (isSuccess, msg) => {
                     //         $("#trackerHeader").empty();
-                    //         $("#trackerHeader").append(`<ons-list-item expandable expanded>
+                    //         $("#trackerHeader").append(`<ons-list-item >
                     //                 <div class="center">
                     //                     <table style="table-layout: fixed;">
                     //                         <tr>
@@ -1334,7 +1334,7 @@
                     //     })
                     // } else {
                     $("#trackerHeader").empty();
-                    $("#trackerHeader").append(`<ons-list-item expandable expanded>
+                    $("#trackerHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -1528,7 +1528,7 @@
                 deleteTracker(selectedTracker, (isSuccess, msg) => {
                     if (isSuccess) {
                         $("#trackerHeader").empty();
-                        $("#trackerHeader").append(`<ons-list-item expandable expanded>
+                        $("#trackerHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -1561,7 +1561,7 @@
                     addTracker(companyG, setRoot || group.value, imei.value, name.value, (isSuccess, msg) => {
                         if (isSuccess) {
                             $("#trackerHeader").empty();
-                            $("#trackerHeader").append(`<ons-list-item expandable expanded>
+                            $("#trackerHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -1591,7 +1591,7 @@
                 deleteUser(selectedUser, companyG, (isSuccess, msg) => {
                     if (isSuccess) {
                         $("#userHeader").empty();
-                        $("#userHeader").append(`<ons-list-item expandable expanded>
+                        $("#userHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -1620,7 +1620,7 @@
                     addUser(fname.value, lname.value, userEmail.value, userPassword.value, companyG, (isSuccess, msg) => {
                         if (isSuccess) {
                             $("#userHeader").empty();
-                            $("#userHeader").append(`<ons-list-item expandable expanded>
+                            $("#userHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
@@ -1709,7 +1709,7 @@
                     if (isSuccess) {
                         getUserList(companyG);
                         $("#userHeader").empty();
-                        $("#userHeader").append(`<ons-list-item expandable expanded>
+                        $("#userHeader").append(`<ons-list-item >
                                     <div class="center">
                                         <table style="table-layout: fixed;">
                                             <tr>
