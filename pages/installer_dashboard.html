@@ -21,12 +21,16 @@
 <style>
     .org-add-button {
         bottom: 0px;
-        left: -62px;
-        border-radius: 4px;
+        left: -13px;
+        border-bottom: solid;
         /* padding-left: 13px; */
         background-color: white;
-        border-left: 1px solid #e7e7e7;
+        border-color: rgb(16, 91, 255);
         /* background: url(../images/add.png) no-repeat 0 3px; */
+    }
+
+    .node {
+        /*border: solid !important;*/
     }
 
     .search-input {
@@ -496,9 +500,10 @@
                         <div class="left">
                             <div id="leaveAfterSaveMask">
                                 <ons-back-button id="bkBut">Back</ons-back-button>
-                                <ons-button onclick="popWarningAfterChange();"
-                                    style="width: fit-content;margin: auto;display: block;"
-                                    id="bkBut">Save</ons-button>
+                                <ons-button onclick="save();" style="width: fit-content;margin: auto;display: none;"
+                                    id="savegroups">Save</ons-button>
+                                <ons-button onclick="save();" style="width: fit-content;margin: auto;display: none;"
+                                    id="resetgroups">Reset</ons-button>
                             </div>
                         </div>
 
@@ -515,7 +520,7 @@
                         </ons-alert-dialog>
 
                         <div id="orgChartContainer">
-                            <div id="orgChart"></div>
+                            <div onclick="checkIfChange()" id="orgChart"></div>
                         </div>
                     </div>
                 </ons-page>
@@ -1449,6 +1454,9 @@
 
         let org_chart = undefined;
         let initialGroupData = [];
+
+        let initialHTML = "";
+
         function loadGroupPageTree(orgChartInitialData) {
             org_chart = $('#orgChart').orgChart({
                 data: orgChartInitialData,
@@ -1463,6 +1471,14 @@
                 }
             });
             initialGroupData = org_chart.getData();
+            initialHTML = document.getElementById("orgChart").innerHTML;
+        }
+
+        function checkIfChange() {
+            if (initialHTML !== document.getElementById("orgChart").innerHTML) {
+                document.getElementById("savegroups").style.display = "inline-block";
+                document.getElementById("resetgroups").style.display = "inline-block";
+            }
         }
 
         function eventFire(el, etype) {
@@ -1506,7 +1522,7 @@
 
         let popWarningAfterChange = () => {
             //if (!arraysEqual(initialGroupData, org_chart.getData())) {
-                showTemplateDialog("leaveAfterSave");
+            showTemplateDialog("leaveAfterSave");
             //}/* else {
             //    document.getElementById("bkBut").click()
             //}*/
