@@ -500,10 +500,13 @@
                         <div class="left">
                             <div id="leaveAfterSaveMask">
                                 <ons-back-button id="bkBut">Back</ons-back-button>
-                                <ons-button onclick="save();" style="width: fit-content;margin: auto;display: none;"
-                                    id="savegroups">Save</ons-button>
-                                <ons-button onclick="save();" style="width: fit-content;margin: auto;display: none;"
-                                    id="resetgroups">Reset</ons-button>
+                                <div style="display:block;margin: auto;width: fit-content;">
+                                    <ons-button onclick="save();" style="width: fit-content;margin: auto;display: none;"
+                                        id="savegroups">Save</ons-button>
+                                    <ons-button onclick="reset();"
+                                        style="width: fit-content;margin: auto;display: none;" id="resetgroups">Reset
+                                    </ons-button>
+                                </div>
                             </div>
                         </div>
 
@@ -520,7 +523,7 @@
                         </ons-alert-dialog>
 
                         <div id="orgChartContainer">
-                            <div onclick="checkIfChange()" id="orgChart"></div>
+                            <div id="orgChart"></div>
                         </div>
                     </div>
                 </ons-page>
@@ -1454,6 +1457,7 @@
 
         let org_chart = undefined;
         let initialGroupData = [];
+        let toReset = undefined;
 
         let initialHTML = "";
 
@@ -1470,8 +1474,33 @@
                     org_chart.deleteNode(node.data.id);
                 }
             });
+            toReset = orgChartInitialData;
             initialGroupData = org_chart.getData();
             initialHTML = document.getElementById("orgChart").innerHTML;
+
+            // Select the target node.
+            var target = document.querySelector('#orgChart');
+            var target2 = document.getElementsByClassName('node');
+
+            // Create an observer instance.
+            var observer = new MutationObserver(function (mutations) {
+                checkIfChange();
+            });
+
+            // Pass in the target node, as well as the observer options.
+            observer.observe(target, {
+                attributes: true,
+                childList: true,
+                characterData: true
+            });
+            for (let i = 0; i < target2.length; i++) {
+                observer.observe(target2[i], {
+                    attributes: true,
+                    childList: true,
+                    characterData: true
+                });
+            }
+
         }
 
         function checkIfChange() {
@@ -1516,6 +1545,21 @@
                     ons.notification.toast(msg, { timeout: 1000, animation: 'fall' });
                 } else {
                     ons.notification.toast("NOT SAVED! " + msg, { timeout: 5000, animation: 'fall' });
+                }
+            });
+        }
+
+        function reset() {
+            org_chart = $('#orgChart').orgChart({
+                data: toReset,
+                showControls: true,
+                allowEdit: true,
+                onAddNode: function (node) {
+                    parentsSaved.push(node);
+                    org_chart.newNode(node.data.id);
+                },
+                onDeleteNode: function (node) {
+                    org_chart.deleteNode(node.data.id);
                 }
             });
         }
