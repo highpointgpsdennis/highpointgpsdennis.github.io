@@ -1463,6 +1463,20 @@
         let initialHTML = "";
 
         function loadGroupPageTree(orgChartInitialData) {
+            console.log(orgChartInitialData)
+            //Check if parent group exists, if not then change parent to root
+            for(let i = 0; i < orgChartInitialData.length; i++){
+                let found = false;
+                for(let x = 0; x < orgChartInitialData.length; x++){
+                    if((i !== x && orgChartInitialData[i].parent === orgChartInitialData[x].id) || orgChartInitialData[i].parent === 0){
+                        found = true;
+                    }
+                }
+                if(!found){
+                    orgChartInitialData[i].parent = 0;
+                }
+            }
+            //init the orgchart
             org_chart = $('#orgChart').orgChart({
                 data: orgChartInitialData,
                 showControls: true,
@@ -1475,7 +1489,7 @@
                     org_chart.deleteNode(node.data.id);
                 }
             });
-            toReset = orgChartInitialData;
+            toReset = JSON.parse(JSON.stringify(orgChartInitialData));
             initialGroupData = org_chart.getData();
             initialHTML = document.getElementById("orgChart").innerHTML;
 
@@ -1540,7 +1554,7 @@
                 }
             }
 
-            toReset = org_chart.getData();
+            toReset = JSON.parse(JSON.stringify(org_chart.getData()));
 
             setNewGroups(toSave, companyG, (isSuccess, msg) => {
                 if (isSuccess) {
@@ -1558,7 +1572,7 @@
 
         function reset() {
             org_chart = $('#orgChart').orgChart({
-                data: toReset,
+                data: JSON.parse(JSON.stringify(toReset)),
                 showControls: true,
                 allowEdit: true,
                 onAddNode: function (node) {
