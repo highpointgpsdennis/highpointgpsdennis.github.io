@@ -493,6 +493,24 @@
 
         </div>
 
+        <div style="text-align:center;" id="engineCommandSent" class="w3-container">
+            <div id="id01" class="w3-modal">
+              <div class="w3-modal-content w3-card-4">
+                <header id="titleHeaderStarter" class="w3-container w3-red"> 
+                  <span onclick="document.getElementById('id01').style.display='none'" 
+                  class="w3-button w3-display-topright">&times;</span>
+                  <h2>Starter command</h2>
+                </header>
+                <div class="w3-container">
+                  <p id="starterOnOrOff"></p>
+                  <button onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-grey">Ok</button>
+                  <br>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+
     </div>
 
     <script>
@@ -644,17 +662,25 @@
             if (engineTurnOff) {
                 killswitchTracker(selectedEngineTurnOff, (isSuccess, data) => {
                     if (isSuccess) {
-                        alert("Starter turn off command sent. ")
+                        document.getElementById('titleHeaderStarter').className='w3-container w3-green'; 
+                        document.getElementById('id01').style.display='block';
+                        document.getElementById('starterOnOrOff').innerHTML="Starter <b>turn off</b> command sent."
                     } else {
-                        alert("Command ERROR! Did you install a killswitch on your vehicule?")
+                        document.getElementById('titleHeaderStarter').className='w3-container w3-red'; 
+                        document.getElementById('id01').style.display='block';
+                        document.getElementById('starterOnOrOff').innerHTML="Command ERROR! Did you install a killswitch on your vehicle?"
                     }
                 })
             } else {
                 disableKillswitchTracker(selectedEngineTurnOff, (isSuccess, data) => {
                     if (isSuccess) {
-                        alert("Starter turn on command sent. ")
+                        document.getElementById('titleHeaderStarter').className='w3-container w3-green';                        
+                        document.getElementById('id01').style.display='block';
+                        document.getElementById('starterOnOrOff').innerHTML="Starter <b>turn on</b> command sent."
                     } else {
-                        alert("Command ERROR! Did you install a killswitch on your vehicule?")
+                        document.getElementById('titleHeaderStarter').className='w3-container w3-red';                        
+                        document.getElementById('id01').style.display='block';
+                        document.getElementById('starterOnOrOff').innerHTML="Command ERROR! Did you install a killswitch on your vehicle?"
                     }
                 })
             }
