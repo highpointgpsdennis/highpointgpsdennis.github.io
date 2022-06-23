@@ -25,9 +25,7 @@
         border-radius: 41px;
     }
 
-    .org-del-button {
-
-    }
+    .org-del-button {}
 
     .node {
         border: solid !important;
@@ -1463,16 +1461,15 @@
         let initialHTML = "";
 
         function loadGroupPageTree(orgChartInitialData) {
-            console.log(orgChartInitialData)
             //Check if parent group exists, if not then change parent to root
-            for(let i = 0; i < orgChartInitialData.length; i++){
+            for (let i = 0; i < orgChartInitialData.length; i++) {
                 let found = false;
-                for(let x = 0; x < orgChartInitialData.length; x++){
-                    if((i !== x && orgChartInitialData[i].parent === orgChartInitialData[x].id) || orgChartInitialData[i].parent === 0){
+                for (let x = 0; x < orgChartInitialData.length; x++) {
+                    if ((i !== x && orgChartInitialData[i].parent === orgChartInitialData[x].id) || orgChartInitialData[i].parent === 0) {
                         found = true;
                     }
                 }
-                if(!found){
+                if (!found) {
                     orgChartInitialData[i].parent = 0;
                 }
             }
@@ -1564,6 +1561,28 @@
                     document.getElementById("savegroups").style.display = "none";
                     document.getElementById("resetgroups").style.display = "none";
                     initialHTML = document.getElementById("orgChart").innerHTML;
+                    // Select the target node.
+                    var target = document.querySelector('#orgChart');
+                    var target2 = document.getElementsByClassName('node');
+
+                    // Create an observer instance.
+                    var observer = new MutationObserver(function (mutations) {
+                        checkIfChange();
+                    });
+
+                    // Pass in the target node, as well as the observer options.
+                    observer.observe(target, {
+                        attributes: true,
+                        childList: true,
+                        characterData: true
+                    });
+                    for (let i = 0; i < target2.length; i++) {
+                        observer.observe(target2[i], {
+                            attributes: true,
+                            childList: true,
+                            characterData: true
+                        });
+                    }
                 } else {
                     ons.notification.toast("NOT SAVED! " + msg, { timeout: 5000, animation: 'fall' });
                 }
@@ -1583,6 +1602,29 @@
                     org_chart.deleteNode(node.data.id);
                 }
             });
+
+            // Select the target node.
+            var target = document.querySelector('#orgChart');
+            var target2 = document.getElementsByClassName('node');
+
+            // Create an observer instance.
+            var observer = new MutationObserver(function (mutations) {
+                checkIfChange();
+            });
+
+            // Pass in the target node, as well as the observer options.
+            observer.observe(target, {
+                attributes: true,
+                childList: true,
+                characterData: true
+            });
+            for (let i = 0; i < target2.length; i++) {
+                observer.observe(target2[i], {
+                    attributes: true,
+                    childList: true,
+                    characterData: true
+                });
+            }
 
             document.getElementById("savegroups").style.display = "none";
             document.getElementById("resetgroups").style.display = "none";
